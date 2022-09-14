@@ -115,7 +115,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     case ERROR:
                         resultado += "Simbolo no definido\n";
                         break;
-                    case Identificador: case Numero: case Reservadas:
+                    case IDENTIFICADOR: case LITERAL_NUMERICO: case PALABRA_RESERVADA:
                         resultado += lexer.lexeme + ": Es un " + tokens + "\n";
                         break;
                     default:
