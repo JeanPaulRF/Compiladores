@@ -7,6 +7,8 @@ import static codigo.Tokens.*;
 %type Tokens
 L=[a-zA-Z_]+
 D=[0-9]+
+O=[0-7]+
+H=[0-9A-F]
 espacio=[ ,\t,\r,\n]+
 
 %{
@@ -93,5 +95,10 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 "^" {lexeme=yytext(); return OPERADOR_XOR;}
 "|" {lexeme=yytext(); return OPERADOR_OR;}
 {L}({L}|{D})* {lexeme=yytext(); return IDENTIFICADOR;}
-("(-"{D}+")")|{D}+ {lexeme=yytext(); return LITERAL_NUMERICO;}
+("(-"{D}+")")|{D}+ {lexeme=yytext(); return LITERAL_ENTERO;}
+{D}+ "." {D}+ {lexeme=yytext(); return LITERAL_FLOAT;}
+"0" {O}+ {lexeme=yytext(); return LITERAL_OCTAL;}
+"0x" {H}+ {lexeme=yytext(); return LITERAL_HEXADECIMAL;}
+(\'[^\']\')|(\'\'\'\')|("#"{D}) {lexeme=yytext(); return LITERAL_CARACTER;}
+(\"[^\"]*\")|(\"[^\"]*\"(\"[^\"]*\")*) {lexeme=yytext(); return LITERAL_CADENA;}
  . {lexeme=yytext(); return ERROR;}

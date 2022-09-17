@@ -90,6 +90,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
         // TODO add your handling code here:
+        
         File archivo = new File("archivo.txt");
         PrintWriter escribir;
         try {
@@ -115,7 +116,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     case ERROR:
                         resultado += "Simbolo no definido\n";
                         break;
-                    case IDENTIFICADOR: case LITERAL_NUMERICO: case PALABRA_RESERVADA:
+                    case IDENTIFICADOR: case LITERAL_ENTERO: case PALABRA_RESERVADA:
                         resultado += lexer.lexeme + ": Es un " + tokens + "\n";
                         break;
                     default:
@@ -128,6 +129,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     /**
