@@ -49,6 +49,7 @@ volatile |
 while {lexeme=yytext(); return PALABRA_RESERVADA;}
 {espacio} {/*Ignore*/;}
 "//".* {/*Ignore*/;}
+{D}{L} {lexeme=yytext(); return ERROR_ALFANUMERICO;}
 ">>" {lexeme=yytext(); return OPERADOR_DESPLAZAMIENTO_DERECHA;}
 "<<" {lexeme=yytext(); return OPERADOR_DESPLAZAMIENTO_IZQUIERDA;}
 "%=" {lexeme=yytext(); return OPERADOR_MODULO_ASIGNACION;}
@@ -102,3 +103,4 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 (\'[^\']\')|(\'\'\'\')|("#"{D}) {lexeme=yytext(); return LITERAL_CARACTER;}
 (\"[^\"]*\")|(\"[^\"]*\"(\"[^\"]*\")*) {lexeme=yytext(); return LITERAL_CADENA;}
  . {lexeme=yytext(); return ERROR;}
+
