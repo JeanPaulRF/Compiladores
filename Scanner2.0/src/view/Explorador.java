@@ -13,10 +13,8 @@ import javax.swing.*;
  */
 public class Explorador {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+
+    public static File seleccionar() {
         File archivoSeleccionado;
 
         JFileChooser seleccionarArchivo;
@@ -24,7 +22,7 @@ public class Explorador {
         seleccionarArchivo= new JFileChooser();
         seleccionarArchivo.showOpenDialog(null);
         archivoSeleccionado = seleccionarArchivo.getSelectedFile();
-        System.out.println(archivoSeleccionado+"");
+        return(archivoSeleccionado);
     }
     
 }

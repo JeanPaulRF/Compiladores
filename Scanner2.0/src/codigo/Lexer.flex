@@ -8,7 +8,7 @@ import static codigo.Tokens.*;
 L=[a-zA-Z_]+
 D=[0-9]+
 O=[0-7]+
-H=[0-9A-F]
+H=[0-9A-Fa-f]
 espacio=[ ,\t,\r,\n]+
 
 %{
@@ -47,9 +47,13 @@ unsigned |
 void |
 volatile |
 while {lexeme=yytext(); return PALABRA_RESERVADA;}
+"\n" {lexeme=yytext(); return NEW_LINE;}
 {espacio} {/*Ignore*/;}
 "//".* {/*Ignore*/;}
-{D}{L} {lexeme=yytext(); return ERROR_ALFANUMERICO;}
+"0"{O} {lexeme=yytext(); return LITERAL_OCTAL;}
+"0x"{H} {lexeme=yytext(); return LITERAL_HEXADECIMAL;}
+{D}+{L}+ {lexeme=yytext(); return ERROR_ALFANUMERICO;}
+"," {lexeme=yytext(); return OPERADOR_COMA;}
 ">>" {lexeme=yytext(); return OPERADOR_DESPLAZAMIENTO_DERECHA;}
 "<<" {lexeme=yytext(); return OPERADOR_DESPLAZAMIENTO_IZQUIERDA;}
 "%=" {lexeme=yytext(); return OPERADOR_MODULO_ASIGNACION;}
@@ -72,7 +76,6 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 "*=" {lexeme=yytext(); return OPERADOR_MULTIPLICACION_ASIGNACION;}
 "/=" {lexeme=yytext(); return OPERADOR_DIVISION_ASIGNACION;}
 "~" {lexeme=yytext(); return OPERADOR_NOT;}
-"," {lexeme=yytext(); return OPERADOR_COMA;}
 ";" {lexeme=yytext(); return OPERADOR_PUNTOYCOMA;}
 ">" {lexeme=yytext(); return OPERADOR_MAYOR;}
 "<" {lexeme=yytext(); return OPERADOR_MENOR;}
@@ -96,10 +99,8 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 "^" {lexeme=yytext(); return OPERADOR_XOR;}
 "|" {lexeme=yytext(); return OPERADOR_OR;}
 {L}({L}|{D})* {lexeme=yytext(); return IDENTIFICADOR;}
-("(-"{D}+")")|{D}+ {lexeme=yytext(); return LITERAL_ENTERO;}
+({D}-0)+("(-"{D}+")")|{D}+ {lexeme=yytext(); return LITERAL_ENTERO;}
 {D}+ "." {D}+ {lexeme=yytext(); return LITERAL_FLOAT;}
-"0" {O}+ {lexeme=yytext(); return LITERAL_OCTAL;}
-"0x" {H}+ {lexeme=yytext(); return LITERAL_HEXADECIMAL;}
 (\'[^\']\')|(\'\'\'\')|("#"{D}) {lexeme=yytext(); return LITERAL_CARACTER;}
 (\"[^\"]*\")|(\"[^\"]*\"(\"[^\"]*\")*) {lexeme=yytext(); return LITERAL_CADENA;}
  . {lexeme=yytext(); return ERROR;}

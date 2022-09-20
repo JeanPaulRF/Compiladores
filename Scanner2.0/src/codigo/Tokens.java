@@ -67,5 +67,6 @@ public enum Tokens {
     LITERAL_CARACTER,
     LITERAL_CADENA,
     ERROR_ALFANUMERICO,
+    NEW_LINE,
     ERROR
 }
