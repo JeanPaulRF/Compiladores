@@ -68,5 +68,8 @@ public enum Tokens {
     LITERAL_CADENA,
     ERROR_ALFANUMERICO,
     NEW_LINE,
+    ERROR_TOKEN,
+    ERROR_LITERAL,
+    ERROR_NUMERICO,
     ERROR
 }

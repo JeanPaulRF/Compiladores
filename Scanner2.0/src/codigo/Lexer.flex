@@ -103,5 +103,8 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 {D}+ "." {D}+ {lexeme=yytext(); return LITERAL_FLOAT;}
 (\'[^\']\')|(\'\'\'\')|("#"{D}) {lexeme=yytext(); return LITERAL_CARACTER;}
 (\"[^\"]*\")|(\"[^\"]*\"(\"[^\"]*\")*) {lexeme=yytext(); return LITERAL_CADENA;}
+[^L] {lexeme=yytext(); return ERROR_TOKEN;}
+"#"{L}+ {lexeme=yytext(); return ERROR_LITERAL;}
+{D}+"."{D}+"."{D}+ {lexeme=yytext(); return ERROR_NUMERICO;}
  . {lexeme=yytext(); return ERROR;}
 
