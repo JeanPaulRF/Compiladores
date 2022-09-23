@@ -8,19 +8,24 @@ import java.util.ArrayList;
  * @author Mauricio
  */
 public class Simbolo {
+    public String tipo;
     public String token;
     public int cantidad;
     public ArrayList<Point> lineas;
-    public Simbolo(String token, int cantidad) {
-        this.token = token;
+    public Simbolo(String tipo, int cantidad, String token) {
+        this.tipo = tipo;
         this.cantidad = cantidad;
         lineas = new ArrayList<>();
+        this.token = token;
+    }
+    public String getTipo() {
+        return tipo;
     }
     public String getToken() {
         return token;
     }
     public void setToken(String token) {
-        this.token = token;
+        this.tipo = token;
     }
     public int getCantidad() {
         return cantidad;

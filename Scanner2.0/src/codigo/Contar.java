@@ -23,7 +23,8 @@ public class Contar {
                 if (tokens == null) {
                     resultado += "FIN";
                     for (int i = 0; i <  contador.tokens.size(); i++) {
-                       System.out.println(contador.tokens.get(i).token + contador.tokens.get(i).cantidad);
+                       System.out.println(contador.tokens.get(i).tipo + " " +contador.tokens.get(i).cantidad + " " +contador.tokens.get(i).token );
+                        
                        
                     }
                     return;
@@ -31,15 +32,17 @@ public class Contar {
                 switch (tokens) {
                     case ERROR: //cambiar luego 
                         resultado += "Simbolo no definido\n";
-                        Simbolo err = new Simbolo("Error",1);
+                        Simbolo err = new Simbolo("Error",1, lexer.lexeme);
                         contador.errores.add(err);
                         break;
                     default:
-                        if (contador.tokens.isEmpty())
-                            contador.tokens.add(new Simbolo(tokens.toString(), 1));
+                        if (contador.tokens.isEmpty()){
+                            contador.tokens.add(new Simbolo(tokens.toString(), 1,lexer.lexeme));
+                            break;
+                        }
                         boolean flag = false;
                         for (int i = 0; i < contador.tokens.size(); i++) {
-                            if (contador.tokens.get(i).token.equals(tokens.toString())){
+                            if (contador.tokens.get(i).token.equals(lexer.lexeme)){
                                 contador.tokens.get(i).cantidad ++;
                                 flag = true;
                                 break;
@@ -47,7 +50,7 @@ public class Contar {
                         }
                         if (!flag){
                             flag = false;
-                            contador.tokens.add(new Simbolo(tokens.toString(), 1));
+                            contador.tokens.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
                         }
                 }
             }
