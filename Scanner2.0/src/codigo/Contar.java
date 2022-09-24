@@ -16,7 +16,10 @@ public class Contar {
         File archivo = view.Explorador.seleccionar();
         Reader lector = new FileReader(archivo);
             Lexer lexer = new Lexer(lector);
-            String resultado = ""; 
+            String resultado = "";
+            int linea = 1;
+            String newLine = "NEW_LINE";
+            System.out.println("Linea 1: ");
             while (true) {
                 Tokens tokens = lexer.yylex();
                 //System.out.println(tokens);
@@ -52,6 +55,13 @@ public class Contar {
                             flag = false;
                             contador.tokens.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
                         }
+                        System.out.println(tokens.toString());
+                        
+                        if (newLine.equals(tokens.toString())){
+                            linea = linea + 1;   
+                            System.out.println("Linea "+linea+": ");                 
+                        }
+                            
                 }
             }
                                                    

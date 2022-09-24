@@ -9,7 +9,8 @@ L=[a-zA-Z_]+
 D=[0-9]+
 O=[0-7]+
 H=[0-9A-Fa-f]
-espacio=[ ,\t,\r,\n]+
+espacio=[ ,\t]+
+enter=[\r,\n,\r\n]+
 
 %{
     public String lexeme;
@@ -47,7 +48,7 @@ unsigned |
 void |
 volatile |
 while {lexeme=yytext(); return PALABRA_RESERVADA;}
-"\n" {lexeme=yytext(); return NEW_LINE;}
+{enter} {lexeme=yytext(); return NEW_LINE;}
 {espacio} {/*Ignore*/;}
 "//".* {/*Ignore*/;}
 "0"{O} {lexeme=yytext(); return LITERAL_OCTAL;}
@@ -107,4 +108,5 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 "#"{L}+ {lexeme=yytext(); return ERROR_LITERAL;}
 {D}+"."{D}+"."{D}+ {lexeme=yytext(); return ERROR_NUMERICO;}
  . {lexeme=yytext(); return ERROR;}
+
 
