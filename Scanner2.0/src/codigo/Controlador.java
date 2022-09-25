@@ -290,7 +290,7 @@ public class Controlador {
                         }
                         break;
                     default:
-                        if (comentario) {
+                        if (comentario && !coment_izq.equals(tokens.toString())) {
                             if (contador.tokens.isEmpty()) {
                                 contador.tokens.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
                                 contador.tokens.get(0).lineas.add(new Point(linea, 1));
