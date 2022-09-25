@@ -26,13 +26,13 @@ import javax.annotation.processing.FilerException;
 public class Controlador {
 
     Pantalla pantalla;
-    Explorador explorador;
+    static Explorador explorador;
     public File archivo;
-    ArrayList<String> arrayTokens;
-    ArrayList<String> arrayErrores;
+    static ArrayList<String> arrayTokens;
+    static ArrayList<String> arrayErrores;
+    public ContarToken contador;
 
-    public Controlador(Pantalla pantalla) {
-        this.pantalla = pantalla;
+    public Controlador() {
         explorador = new Explorador();
         arrayTokens = new ArrayList<String>();
         arrayErrores = new ArrayList<String>();
@@ -43,11 +43,12 @@ public class Controlador {
     }
 
     public void scanearArchivo() {
+        archivo = explorador.seleccionar();
         if (archivo == null) {
             return;
         }
         try {
-            ContarToken contador = new ContarToken();
+            contador = new ContarToken();
             Reader lector = new BufferedReader(new FileReader(archivo.getAbsolutePath()));
             Lexer lexer = new Lexer(lector);
             String resultado = "";
@@ -68,6 +69,14 @@ public class Controlador {
                             System.out.println("Linea: " + contador.tokens.get(i).lineas.get(j).x + " Se repite: " + contador.tokens.get(i).lineas.get(j).y);
 
                         }
+                    }
+                    for (int i = 0; i < contador.errores.size(); i++) {
+                        System.out.println("Tipo: " + contador.errores.get(i).tipo + " Se repite: " + contador.errores.get(i).cantidad + " Token: " + contador.errores.get(i).token);
+
+                        for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
+                            System.out.println("Linea: " + contador.errores.get(i).lineas.get(j).x + " Se repite: " + contador.errores.get(i).lineas.get(j).y);
+
+                        }
 
                     }
                     return;
@@ -76,10 +85,209 @@ public class Controlador {
                     case NEW_LINE:
                         linea = linea + 1;
                         break;
-                    case ERROR: //cambiar luego 
-                        resultado += "Simbolo no definido\n";
-                        Simbolo err = new Simbolo("Error", 1, lexer.lexeme);
-                        contador.errores.add(err);
+                    case ERROR_TOKEN: 
+                        if (comentario) {
+                            if (contador.errores.isEmpty()) {
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                contador.errores.get(0).lineas.add(new Point(linea, 1));
+                                break;
+                            }
+                            boolean flag = false;
+                            for (int i = 0; i < contador.errores.size(); i++) {
+                                if (contador.errores.get(i).token.equals(lexer.lexeme)) {
+                                    contador.errores.get(i).cantidad++;
+                                    flag = true;
+                                    if (contador.errores.get(i).lineas.isEmpty()) {
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                        break;
+                                    }
+                                    for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
+                                        if (contador.errores.get(i).lineas.get(j).x == linea) {
+                                            contador.errores.get(i).lineas.get(j).y++;
+                                            break;
+                                        } else {
+                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                            break;
+                                        }
+
+                                    }
+                                    //System.out.println(tokens.toString());
+                                    break;
+                                }
+                            }
+                            if (!flag) {
+
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                Simbolo ultimo = contador.errores.get(contador.errores.size() - 1);
+                                if (ultimo.lineas.isEmpty()) {
+                                    ultimo.lineas.add(new Point(linea, 1));
+                                } else {
+                                    for (int i = 0; i < ultimo.lineas.size(); i++) {
+                                        if (ultimo.lineas.get(i).x == linea) {
+                                            ultimo.lineas.get(i).y++;
+
+                                        } else {
+                                            ultimo.lineas.add(new Point(linea, 1));
+                                        }
+
+                                    }
+                                }
+                                //System.out.println(tokens.toString());
+                            }
+                        }
+                        break;
+                    case ERROR_LITERAL: 
+                        if (comentario) {
+                            if (contador.errores.isEmpty()) {
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                contador.errores.get(0).lineas.add(new Point(linea, 1));
+                                break;
+                            }
+                            boolean flag = false;
+                            for (int i = 0; i < contador.errores.size(); i++) {
+                                if (contador.errores.get(i).token.equals(lexer.lexeme)) {
+                                    contador.errores.get(i).cantidad++;
+                                    flag = true;
+                                    if (contador.errores.get(i).lineas.isEmpty()) {
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                        break;
+                                    }
+                                    for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
+                                        if (contador.errores.get(i).lineas.get(j).x == linea) {
+                                            contador.errores.get(i).lineas.get(j).y++;
+                                            break;
+                                        } else {
+                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                            break;
+                                        }
+
+                                    }
+                                    //System.out.println(tokens.toString());
+                                    break;
+                                }
+                            }
+                            if (!flag) {
+
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                Simbolo ultimo = contador.errores.get(contador.errores.size() - 1);
+                                if (ultimo.lineas.isEmpty()) {
+                                    ultimo.lineas.add(new Point(linea, 1));
+                                } else {
+                                    for (int i = 0; i < ultimo.lineas.size(); i++) {
+                                        if (ultimo.lineas.get(i).x == linea) {
+                                            ultimo.lineas.get(i).y++;
+
+                                        } else {
+                                            ultimo.lineas.add(new Point(linea, 1));
+                                        }
+
+                                    }
+                                }
+                                //System.out.println(tokens.toString());
+                            }
+                        }
+                        break;
+                    case ERROR_ALFANUMERICO:
+                        if (comentario) {
+                            if (contador.errores.isEmpty()) {
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                contador.errores.get(0).lineas.add(new Point(linea, 1));
+                                break;
+                            }
+                            boolean flag = false;
+                            for (int i = 0; i < contador.errores.size(); i++) {
+                                if (contador.errores.get(i).token.equals(lexer.lexeme)) {
+                                    contador.errores.get(i).cantidad++;
+                                    flag = true;
+                                    if (contador.errores.get(i).lineas.isEmpty()) {
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                        break;
+                                    }
+                                    for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
+                                        if (contador.errores.get(i).lineas.get(j).x == linea) {
+                                            contador.errores.get(i).lineas.get(j).y++;
+                                            break;
+                                        } else {
+                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                            break;
+                                        }
+
+                                    }
+                                    //System.out.println(tokens.toString());
+                                    break;
+                                }
+                            }
+                            if (!flag) {
+
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                Simbolo ultimo = contador.errores.get(contador.errores.size() - 1);
+                                if (ultimo.lineas.isEmpty()) {
+                                    ultimo.lineas.add(new Point(linea, 1));
+                                } else {
+                                    for (int i = 0; i < ultimo.lineas.size(); i++) {
+                                        if (ultimo.lineas.get(i).x == linea) {
+                                            ultimo.lineas.get(i).y++;
+
+                                        } else {
+                                            ultimo.lineas.add(new Point(linea, 1));
+                                        }
+
+                                    }
+                                }
+                                //System.out.println(tokens.toString());
+                            }
+                        }
+                        break;
+                        case ERROR_NUMERICO:  
+                        if (comentario) {
+                            if (contador.errores.isEmpty()) {
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                contador.errores.get(0).lineas.add(new Point(linea, 1));
+                                break;
+                            }
+                            boolean flag = false;
+                            for (int i = 0; i < contador.errores.size(); i++) {
+                                if (contador.errores.get(i).token.equals(lexer.lexeme)) {
+                                    contador.errores.get(i).cantidad++;
+                                    flag = true;
+                                    if (contador.errores.get(i).lineas.isEmpty()) {
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                        break;
+                                    }
+                                    for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
+                                        if (contador.errores.get(i).lineas.get(j).x == linea) {
+                                            contador.errores.get(i).lineas.get(j).y++;
+                                            break;
+                                        } else {
+                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
+                                            break;
+                                        }
+
+                                    }
+                                    //System.out.println(tokens.toString());
+                                    break;
+                                }
+                            }
+                            if (!flag) {
+
+                                contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                Simbolo ultimo = contador.errores.get(contador.errores.size() - 1);
+                                if (ultimo.lineas.isEmpty()) {
+                                    ultimo.lineas.add(new Point(linea, 1));
+                                } else {
+                                    for (int i = 0; i < ultimo.lineas.size(); i++) {
+                                        if (ultimo.lineas.get(i).x == linea) {
+                                            ultimo.lineas.get(i).y++;
+
+                                        } else {
+                                            ultimo.lineas.add(new Point(linea, 1));
+                                        }
+
+                                    }
+                                }
+                                //System.out.println(tokens.toString());
+                            }
+                        }
                         break;
                     default:
                         if (comentario) {
@@ -112,12 +320,12 @@ public class Controlador {
                                 }
                             }
                             if (!flag) {
+
                                 contador.tokens.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
                                 Simbolo ultimo = contador.tokens.get(contador.tokens.size() - 1);
                                 if (ultimo.lineas.isEmpty()) {
                                     ultimo.lineas.add(new Point(linea, 1));
-                                } 
-                                else {
+                                } else {
                                     for (int i = 0; i < ultimo.lineas.size(); i++) {
                                         if (ultimo.lineas.get(i).x == linea) {
                                             ultimo.lineas.get(i).y++;
@@ -145,8 +353,8 @@ public class Controlador {
         }
     }
 
-    public ArrayList<String> getTokens() {
-        return arrayTokens;
+    public ContarToken getTokens() {
+        return contador;
     }
 
     public ArrayList<String> getErrores() {

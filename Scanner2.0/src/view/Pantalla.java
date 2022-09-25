@@ -1,35 +1,22 @@
-package view;
-
-import codigo.Controlador;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-
+package view;
+import codigo.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
- * @author jeanp
+ * @author Mauricio
  */
 public class Pantalla extends javax.swing.JFrame {
 
     /**
      * Creates new form Pantalla
      */
-    
-    Controlador controlador;
-    
-    public Pantalla() throws FileNotFoundException {
-        controlador = new Controlador(this); 
-        controlador.seleccionar();
-        controlador.scanearArchivo();
+    public Pantalla() {
         initComponents();
-        escribirCodigo();
-        escribirErrores();
     }
 
     /**
@@ -41,86 +28,126 @@ public class Pantalla extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelCodigo = new javax.swing.JScrollPane();
-        jtxtCodigo = new javax.swing.JTextArea();
-        jPanelErrores = new javax.swing.JScrollPane();
-        jtxtErrores = new javax.swing.JTextArea();
-        jPanelTabla = new javax.swing.JScrollPane();
-        jtxtTabla = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        errorsTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tokensTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jtxtCodigo.setEditable(false);
-        jtxtCodigo.setColumns(20);
-        jtxtCodigo.setRows(5);
-        jPanelCodigo.setViewportView(jtxtCodigo);
+        errorsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null}
+            },
+            new String [] {
+                "Error", "Tipo de Error", "Líneas"
+            }
+        ));
+        jScrollPane1.setViewportView(errorsTable);
 
-        jtxtErrores.setEditable(false);
-        jtxtErrores.setColumns(20);
-        jtxtErrores.setRows(5);
-        jPanelErrores.setViewportView(jtxtErrores);
+        jLabel1.setText("Tokens");
 
-        jtxtTabla.setEditable(false);
-        jtxtTabla.setColumns(20);
-        jtxtTabla.setRows(5);
-        jPanelTabla.setViewportView(jtxtTabla);
+        tokensTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null}
+            },
+            new String [] {
+                "Token", "Tipo de Token", "Línea"
+            }
+        ));
+        jScrollPane2.setViewportView(tokensTable);
 
-        jLabel1.setText("Output");
+        jLabel2.setText("Errores");
 
-        jLabel2.setText("Code");
-
-        jLabel3.setText("Tokens table");
+        jButton1.setBackground(new java.awt.Color(255, 51, 102));
+        jButton1.setText("Seleccionar archivo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(280, 280, 280)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(188, 188, 188))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(229, 229, 229))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelErrores))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(420, 420, 420)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-                    .addComponent(jPanelCodigo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelErrores, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Controlador con = new codigo.Controlador();
+        con.scanearArchivo();
+        ContarToken tokens = con.contador;
+        setTokens(tokens);
+        setErrores(tokens);
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void setTokens(ContarToken tabla){
+        DefaultTableModel model = (DefaultTableModel) tokensTable.getModel();
+        
+        String[] cols = { "Token", "Tipo de Token", "Línea"};
+        String[][] data = new String[tabla.tokens.size()][3];
+        for (int i = 0; i < tabla.tokens.size(); i++) {   
+            data[i][0] =  tabla.tokens.get(i).token;
+            data[i][1] = tabla.tokens.get(i).tipo;
+            data[i][2] = tabla.tokens.get(i).lineasToString();
+            
+        }
+        
+        model.setDataVector(data, cols);
+    }
+    
+    private void setErrores(ContarToken tabla){
+        DefaultTableModel model2 = (DefaultTableModel) errorsTable.getModel();
+        String[] cols = { "Error", "Tipo de Error", "Línea"};
+        String[][] data = new String[tabla.errores.size()][3];
+        for (int i = 0; i < tabla.errores.size(); i++) {   
+            data[i][0] =  tabla.errores.get(i).token;
+            data[i][1] = tabla.errores.get(i).tipo;
+            data[i][2] = tabla.errores.get(i).lineasToString();
+            
+        }
+        
+        model2.setDataVector(data, cols);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -151,51 +178,25 @@ public class Pantalla extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Pantalla().setVisible(true);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Pantalla().setVisible(true);
             }
         });
     }
-    
-    
-    public void escribirCodigo(){
-        ArrayList<String> arrayTokens = controlador.getTokens();
-        jtxtTabla.setText("");
-        
-        for (int i = 0; i < arrayTokens.size(); i++) {
-            jtxtTabla.append(arrayTokens.get(i));
-        }
-    }
-    
-    public void escribirErrores(){
-        ArrayList<String> arrayErrores = controlador.getErrores();
-        jtxtErrores.setText("");
-        
-        System.out.println(arrayErrores.size());
-        
-        if(arrayErrores.size() == 0){
-            jtxtErrores.append("SCAN SUCCESSFUL");
-            return;
-        }
-        
-        for (int i = 0; i < arrayErrores.size(); i++) {
-            jtxtErrores.append(arrayErrores.get(i));
-        }
-    }
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable errorsTable;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jPanelCodigo;
-    private javax.swing.JScrollPane jPanelErrores;
-    private javax.swing.JScrollPane jPanelTabla;
-    private javax.swing.JTextArea jtxtCodigo;
-    private javax.swing.JTextArea jtxtErrores;
-    private javax.swing.JTextArea jtxtTabla;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tokensTable;
     // End of variables declaration//GEN-END:variables
+
+    
+
+
 }
+

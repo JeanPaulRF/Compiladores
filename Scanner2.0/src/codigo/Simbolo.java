@@ -21,6 +21,17 @@ public class Simbolo {
     public String getTipo() {
         return tipo;
     }
+    public String lineasToString(){
+        String resultado = new String();
+        for (int i = 0; i < lineas.size(); i++) {
+            if(lineas.get(i).y == 1){
+                resultado += lineas.get(i).x + ", "; 
+                continue;
+            }
+            resultado += lineas.get(i).x + " (" + lineas.get(i).y + "), ";  
+        }
+        return resultado;
+    }
     public String getToken() {
         return token;
     }
