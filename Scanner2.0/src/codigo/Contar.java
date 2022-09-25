@@ -19,6 +19,9 @@ public class Contar {
             String resultado = "";
             int linea = 1;
             String newLine = "NEW_LINE";
+            String coment_izq = "COMENTARIO_INICIO";
+            String coment_der = "COMENTARIO_FIN";
+            boolean comentario = true;
             System.out.println("Linea 1: ");
             while (true) {
                 Tokens tokens = lexer.yylex();
@@ -39,29 +42,37 @@ public class Contar {
                         contador.errores.add(err);
                         break;
                     default:
-                        if (contador.tokens.isEmpty()){
-                            contador.tokens.add(new Simbolo(tokens.toString(), 1,lexer.lexeme));
-                            break;
-                        }
-                        boolean flag = false;
-                        for (int i = 0; i < contador.tokens.size(); i++) {
-                            if (contador.tokens.get(i).token.equals(lexer.lexeme)){
-                                contador.tokens.get(i).cantidad ++;
-                                flag = true;
+                        if (comentario){
+                            if (contador.tokens.isEmpty()){
+                                contador.tokens.add(new Simbolo(tokens.toString(), 1,lexer.lexeme));
+                                System.out.println(tokens.toString());
                                 break;
                             }
+                            boolean flag = false;
+                            for (int i = 0; i < contador.tokens.size(); i++) {
+                                if (contador.tokens.get(i).token.equals(lexer.lexeme)){
+                                    contador.tokens.get(i).cantidad ++;
+                                    flag = true;
+                                    System.out.println(tokens.toString());
+                                    break;
+                                }
+                            }
+                            if (!flag){
+                                flag = false;
+                                contador.tokens.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                                System.out.println(tokens.toString());
+                            }                         
                         }
-                        if (!flag){
-                            flag = false;
-                            contador.tokens.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
+                        if (coment_izq.equals(tokens.toString())){
+                            comentario=false;                        
                         }
-                        System.out.println(tokens.toString());
-                        
+                        if (coment_der.equals(tokens.toString())){
+                            comentario=true;                          
+                        }
                         if (newLine.equals(tokens.toString())){
                             linea = linea + 1;   
                             System.out.println("Linea "+linea+": ");                 
                         }
-                            
                 }
             }
                                                    

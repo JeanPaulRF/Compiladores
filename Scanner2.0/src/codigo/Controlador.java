@@ -58,7 +58,7 @@ public class Controlador {
                     case IDENTIFICADOR: case LITERAL_ENTERO: case PALABRA_RESERVADA:
                         arrayTokens.add(lexer.lexeme + ": Es un " + tokens + "\n");
                         break;
-                    case  NEW_LINE:
+                    case  NEW_LINE: case COMENTARIO_INICIO:
                         break;
                     default:
                         arrayTokens.add("Token: " + tokens + "\n");

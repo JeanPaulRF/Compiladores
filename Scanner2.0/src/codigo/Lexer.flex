@@ -51,6 +51,8 @@ while {lexeme=yytext(); return PALABRA_RESERVADA;}
 {enter} {lexeme=yytext(); return NEW_LINE;}
 {espacio} {/*Ignore*/;}
 "//".* {/*Ignore*/;}
+"/*" {lexeme=yytext(); return COMENTARIO_INICIO;}
+"*/" {lexeme=yytext(); return COMENTARIO_FIN;}
 "0"{O} {lexeme=yytext(); return LITERAL_OCTAL;}
 "0x"{H} {lexeme=yytext(); return LITERAL_HEXADECIMAL;}
 {D}+{L}+ {lexeme=yytext(); return ERROR_ALFANUMERICO;}
