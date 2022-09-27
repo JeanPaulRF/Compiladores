@@ -93,6 +93,7 @@ public class Controlador {
                                 break;
                             }
                             boolean flag = false;
+                            boolean flag2 = false;
                             for (int i = 0; i < contador.errores.size(); i++) {
                                 if (contador.errores.get(i).token.equals(lexer.lexeme)) {
                                     contador.errores.get(i).cantidad++;
@@ -104,12 +105,12 @@ public class Controlador {
                                     for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
                                         if (contador.errores.get(i).lineas.get(j).x == linea) {
                                             contador.errores.get(i).lineas.get(j).y++;
+                                            flag2 = true;
                                             break;
-                                        } else {
-                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
-                                            break;
-                                        }
-
+                                        } 
+                                    }
+                                    if (!flag2){
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
                                     }
                                     //System.out.println(tokens.toString());
                                     break;
@@ -144,6 +145,7 @@ public class Controlador {
                                 break;
                             }
                             boolean flag = false;
+                            boolean flag2 = false;
                             for (int i = 0; i < contador.errores.size(); i++) {
                                 if (contador.errores.get(i).token.equals(lexer.lexeme)) {
                                     contador.errores.get(i).cantidad++;
@@ -155,12 +157,12 @@ public class Controlador {
                                     for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
                                         if (contador.errores.get(i).lineas.get(j).x == linea) {
                                             contador.errores.get(i).lineas.get(j).y++;
+                                            flag2 = true;
                                             break;
-                                        } else {
-                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
-                                            break;
-                                        }
-
+                                        } 
+                                    }
+                                    if (!flag2){
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
                                     }
                                     //System.out.println(tokens.toString());
                                     break;
@@ -195,6 +197,7 @@ public class Controlador {
                                 break;
                             }
                             boolean flag = false;
+                            boolean flag2 = false;
                             for (int i = 0; i < contador.errores.size(); i++) {
                                 if (contador.errores.get(i).token.equals(lexer.lexeme)) {
                                     contador.errores.get(i).cantidad++;
@@ -206,12 +209,12 @@ public class Controlador {
                                     for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
                                         if (contador.errores.get(i).lineas.get(j).x == linea) {
                                             contador.errores.get(i).lineas.get(j).y++;
+                                            flag2 = true;
                                             break;
-                                        } else {
-                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
-                                            break;
-                                        }
-
+                                        } 
+                                    }
+                                    if (!flag2){
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
                                     }
                                     //System.out.println(tokens.toString());
                                     break;
@@ -221,20 +224,8 @@ public class Controlador {
 
                                 contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
                                 Simbolo ultimo = contador.errores.get(contador.errores.size() - 1);
-                                if (ultimo.lineas.isEmpty()) {
-                                    ultimo.lineas.add(new Point(linea, 1));
-                                } else {
-                                    for (int i = 0; i < ultimo.lineas.size(); i++) {
-                                        if (ultimo.lineas.get(i).x == linea) {
-                                            ultimo.lineas.get(i).y++;
-
-                                        } else {
-                                            ultimo.lineas.add(new Point(linea, 1));
-                                        }
-
-                                    }
-                                }
-                                //System.out.println(tokens.toString());
+                                ultimo.lineas.add(new Point(linea, 1));
+                                break;
                             }
                         }
                         break;
@@ -246,6 +237,7 @@ public class Controlador {
                                 break;
                             }
                             boolean flag = false;
+                            boolean flag2 = false;
                             for (int i = 0; i < contador.errores.size(); i++) {
                                 if (contador.errores.get(i).token.equals(lexer.lexeme)) {
                                     contador.errores.get(i).cantidad++;
@@ -257,12 +249,12 @@ public class Controlador {
                                     for (int j = 0; j < contador.errores.get(i).lineas.size(); j++) {
                                         if (contador.errores.get(i).lineas.get(j).x == linea) {
                                             contador.errores.get(i).lineas.get(j).y++;
+                                            flag2 = true;
                                             break;
-                                        } else {
-                                            contador.errores.get(i).lineas.add(new Point(linea, 1));
-                                            break;
-                                        }
-
+                                        } 
+                                    }
+                                    if (!flag2){
+                                        contador.errores.get(i).lineas.add(new Point(linea, 1));
                                     }
                                     //System.out.println(tokens.toString());
                                     break;
@@ -297,6 +289,7 @@ public class Controlador {
                                 break;
                             }
                             boolean flag = false;
+                            boolean flag2 = false;
                             for (int i = 0; i < contador.tokens.size(); i++) {
                                 if (contador.tokens.get(i).token.equals(lexer.lexeme)) {
                                     contador.tokens.get(i).cantidad++;
@@ -308,15 +301,13 @@ public class Controlador {
                                     for (int j = 0; j < contador.tokens.get(i).lineas.size(); j++) {
                                         if (contador.tokens.get(i).lineas.get(j).x == linea) {
                                             contador.tokens.get(i).lineas.get(j).y++;
+                                            flag2 = true;
                                             break;
-                                        } else {
-                                            contador.tokens.get(i).lineas.add(new Point(linea, 1));
-                                            break;
-                                        }
-
+                                        } 
                                     }
-                                    //System.out.println(tokens.toString());
-                                    break;
+                                    if (!flag2){
+                                        contador.tokens.get(i).lineas.add(new Point(linea, 1));
+                                    }
                                 }
                             }
                             if (!flag) {
