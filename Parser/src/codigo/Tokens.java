@@ -7,7 +7,7 @@ package codigo;
 
 /**
  *
- * @author Charly Ponce
+ * @author jeanp
  */
 public enum Tokens {
     PALABRA_RESERVADA,
