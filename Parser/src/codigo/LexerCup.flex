@@ -32,7 +32,7 @@ espacio=[ ,\t, \r,\n,\r\n]+
 ( "//"(.)* ) {/*Ignore*/}
 
 /* Comillas */
-( "\"" ) {return new Symbol(sym.Comillas, yychar, yyline, yytext());}
+( "\"" ) {return new Symbol(sym.COMILLAS, yychar, yyline, yytext());}
 
 ( break ) {return new Symbol(sym.BREAK, yychar, yyline, yytext());}
 ( case ) {return new Symbol(sym.CASE, yychar, yyline, yytext());}
@@ -51,8 +51,6 @@ espacio=[ ,\t, \r,\n,\r\n]+
 ( switch ) {return new Symbol(sym.SWITCH, yychar, yyline, yytext());}
 ( void ) {return new Symbol(sym.VOID, yychar, yyline, yytext());}
 ( while )  {return new Symbol(sym.WHILE, yychar, yyline, yytext());}
-
-( "," ) {return new Symbol(sym.COMA, yychar, yyline, yytext());}
 
 ( "++" ) {return new Symbol(sym.INCREMENTO, yychar, yyline, yytext());}
 ( "--" ) {return new Symbol(sym.DECREMENTO, yychar, yyline, yytext());}
@@ -77,20 +75,22 @@ espacio=[ ,\t, \r,\n,\r\n]+
 ( "-" ) {return new Symbol(sym.RESTA, yychar, yyline, yytext());}
 ( "*" ) {return new Symbol(sym.MULTIPLICACION, yychar, yyline, yytext());}
 ( "/" ) {return new Symbol(sym.DIVISION, yychar, yyline, yytext());}
-( "%" ) {return new Symbol(sym.MODULO, yychar, yyline, yytext());}
+    ( "%" ) {return new Symbol(sym.MODULO, yychar, yyline, yytext());}
+
 ( "(" ) {return new Symbol(sym.PARENTESIS_IZQUIERDO, yychar, yyline, yytext());}
 ( ")" ) {return new Symbol(sym.PARENTESIS_DERECHO, yychar, yyline, yytext());}
 ( "[" ) {return new Symbol(sym.PARENTESIS_CUADRADO_IZQUIERDO, yychar, yyline, yytext());}
 ( "]" ) {return new Symbol(sym.PARENTESIS_CUADRADO_DERECHO, yychar, yyline, yytext());}
 ( "{" ) {return new Symbol(sym.CORCHETE_IZQUIERDO, yychar, yyline, yytext());}
 ( "}" ) {return new Symbol(sym.CORCHETE_DERECHO, yychar, yyline, yytext());}
+( "," ) {return new Symbol(sym.COMA, yychar, yyline, yytext());}
 
 ( "." ) {return new Symbol(sym.PUNTO, yychar, yyline, yytext());}
 
 /* Identificador */
 {L}({L}|{D})* {return new Symbol(sym.IDENTIFICADOR, yychar, yyline, yytext());}
 
-({D}-0)+("(-"{D}+")")|{D}+ {return new Symbol(sym.NTERO, yychar, yyline, yytext());}
+({D}-0)+("(-"{D}+")")|{D}+ {return new Symbol(sym.ENTERO, yychar, yyline, yytext());}
 
 (\'[^\']\')|(\'\'\'\')|("#"{D}) {return new Symbol(sym.CARACTER, yychar, yyline, yytext());}
 
