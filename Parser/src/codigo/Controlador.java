@@ -82,10 +82,10 @@ public class Controlador {
                     return;
                 }
                 switch (tokens) {
-                    case NEW_LINE:
+                    case New_Line:
                         linea = linea + 1;
                         break;
-                    case ERROR_TOKEN: 
+                    case Error_Token: 
                         if (comentario) {
                             if (contador.errores.isEmpty()) {
                                 contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
@@ -137,7 +137,7 @@ public class Controlador {
                             }
                         }
                         break;
-                    case ERROR_LITERAL: 
+                    case Error_Literal: 
                         if (comentario) {
                             if (contador.errores.isEmpty()) {
                                 contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
@@ -189,7 +189,7 @@ public class Controlador {
                             }
                         }
                         break;
-                    case ERROR_ALFANUMERICO:
+                    case Error_Alfanumerico:
                         if (comentario) {
                             if (contador.errores.isEmpty()) {
                                 contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));
@@ -229,7 +229,7 @@ public class Controlador {
                             }
                         }
                         break;
-                        case ERROR_NUMERICO:  
+                        case Error_Numerico:  
                         if (comentario) {
                             if (contador.errores.isEmpty()) {
                                 contador.errores.add(new Simbolo(tokens.toString(), 1, lexer.lexeme));

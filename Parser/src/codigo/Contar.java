@@ -36,7 +36,7 @@ public class Contar {
                     return;
                 }
                 switch (tokens) {
-                    case ERROR: //cambiar luego 
+                    case Error: //cambiar luego 
                         resultado += "Simbolo no definido\n";
                         Simbolo err = new Simbolo("Error",1, lexer.lexeme);
                         contador.errores.add(err);

@@ -17,9 +17,9 @@ import java.nio.file.Paths;
  */
 public class Principal {
     public static void main(String[] args) throws Exception {
-        String ruta1 = "src/codigo/Lexer.flex";
-        String ruta2 = "src/codigo/LexerCup.flex";
-        String[] rutaS = {"-parser", "Sintax", "src/codigo/Sintax.cup"};
+        String ruta1 = "C:/Compiladores/Parser/src/codigo/Lexer.flex";
+        String ruta2 = "C:/Compiladores/Parser/src/codigo/LexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "C:/Compiladores/Parser/src/codigo/Sintax.cup"};
         generar(ruta1, ruta2, rutaS);
     }
     public static void generar(String ruta1, String ruta2, String[] rutaS) throws IOException, Exception{
@@ -30,21 +30,21 @@ public class Principal {
         JFlex.Main.generate(archivo);
         java_cup.Main.main(rutaS);
         
-        Path rutaSym = Paths.get("src/codigo/sym.java");
+        Path rutaSym = Paths.get("C:/Compiladores/Parser/src/codigo/sym.java");
         if (Files.exists(rutaSym)) {
             Files.delete(rutaSym);
         }
         Files.move(
-                Paths.get("Parser/sym.java"), 
-                Paths.get("src/codigo/sym.java")
+                Paths.get("C:/Compiladores/Parser/sym.java"), 
+                Paths.get("C:/Compiladores/Parser/src/codigo/sym.java")
         );
-        Path rutaSin = Paths.get("src/codigo/Sintax.java");
+        Path rutaSin = Paths.get("C:/Compiladores/Parser/src/codigo/Sintax.java");
         if (Files.exists(rutaSin)) {
             Files.delete(rutaSin);
         }
         Files.move(
-                Paths.get("Parser/Sintax.java"), 
-                Paths.get("src/codigo/Sintax.java")
+                Paths.get("C:/Compiladores/Parser/Sintax.java"), 
+                Paths.get("C:/Compiladores/Parser/src/codigo/Sintax.java")
         );
     }
 }
