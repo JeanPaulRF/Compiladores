@@ -22,14 +22,14 @@ terminal Comillas, Case, Break, Char, Const, Continue, Default, Do, Else, For, I
     Parentesis_Izquierdo, Parentesis_Derecho, Parentesis_Cuadrado_Izquierdo, Parentesis_Cuadrado_Derecho, 
     Corchete_Izquierdo, Corchete_Derecho, Coma, Punto, Read, Write, Identificador, Entero, Caracter, Cadena, Error;
 
-non terminal INICIO, DECLARACION, LISTA_ID, TDATO, DATO, DECLARACION_IMPLEMENTACION, IMPLEMENTACION, EXPRESION,
-    EXP_BOOL_BIN, EXP_ARIT_BIN, EXP_BOOL_UNA, EXP_ARIT_UNA,
-    READ, WRITE, ELSE, 
-    FOR, IF, SWITCH, WHILE, DO;
+non terminal INICIO, DECLARACION, LISTA_ID, TDATO, DATO, DECLARACION_IMPLEMENTACION, IMPLEMENTACION, 
+    FUNCION, FUNCIONES,
+    EXPRESION, EXP_BOOL_BIN, EXP_ARIT_BIN, EXP_BOOL_UNA, EXP_ARIT_UNA,
+    READ, WRITE, ELSE, FOR, IF, SWITCH, WHILE, DO;
 
 start with INICIO;
 
-INICIO ::= DECLARACION | DECLARACION_IMPLEMENTACION | BLOQUE
+INICIO ::= DECLARACION | DECLARACION_IMPLEMENTACION | FUNCIONES
 ;
 
 DECLARACION ::= TDATO LISTA_ID Puntoycoma
@@ -40,7 +40,6 @@ LISTA_ID ::= Identificador | Identificador Coma LISTA_ID
 
 TDATO ::= Char | Int | Long | Short
 ;
-
 DATO ::= Entero | Caracter | Cadena
 ;
 
@@ -52,13 +51,38 @@ IMPLEMENTACION ::= Identificador Asignacion DATO Puntoycoma
 ;
 
 
-EXPRESION ::= EXP_BOOL_BIN | EXP_ARIT_BIN | EXP_BOOL_UNA | EXP_ARIT_UNA
+FUNCIONES ::= FUNCION | FUNCION FUNCIONES
 ;
-EXP_BOOL_BIN ::= Igual | Mayor_Igual | Menor_Igual | Diferente | Or_Logico | And_Logico | Mayor | Menor
+FUNCION ::= RETURN_TDATO Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
+        Parentesis_Derecho Corchete_Izquierdo BLOQUE Corchete_Derecho
 ;
-EXP_ARIT_BIN ::= Suma_Asignacion | Resta_Asignacion | Multiplicacion_Asignacion | Division_Asignacion |
+RETURN_TDATO ::= TDATO | _Void
+;
+DECLARACION_SIMPLE ::= TDATO Identificador | TDATO Identificador Coma DECLARACION_SIMPLE
+;
+
+
+BLOQUE ::= DECLARACION | DECLARACION_IMPLEMENTACION | IMPLEMENTACION | 
+        FOR | IF | SWITCH | WHILE | DO | BLOQUE
+;
+
+
+
+EXPRESION ::= EXPRESION OP_BIN EXPRESION | OP_UNA EXPRESION | DATO | Identificador
+;
+
+
+OPERADOR ::= OP_BIN | OP_UNA
+;
+OP_BIN ::= OP_BOOL_BIN | OP_ARIT_BIN
+;
+OP_UNA ::= OP_BOOL_UNA | OP_ARIT_UNA
+;
+OP_BOOL_BIN ::= Igual | Mayor_Igual | Menor_Igual | Diferente | Or_Logico | And_Logico | Mayor | Menor
+;
+OP_ARIT_BIN ::= Suma_Asignacion | Resta_Asignacion | Multiplicacion_Asignacion | Division_Asignacion |
                 Suma | Resta | Multiplicacion | Division | Modulo
 ;
-EXP_BOOL_UNA ::= Not_Logico
+OP_BOOL_UNA ::= Not_Logico
 ;
-EXP_ARIT_UNA ::= Incremento | Decremento
+OP_ARIT_UNA ::= Incremento | Decremento
