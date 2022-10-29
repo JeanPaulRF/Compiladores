@@ -22,14 +22,15 @@ terminal Comillas, Case, Break, Char, Const, Continue, Default, Do, Else, For, I
     Parentesis_Izquierdo, Parentesis_Derecho, Parentesis_Cuadrado_Izquierdo, Parentesis_Cuadrado_Derecho, 
     Corchete_Izquierdo, Corchete_Derecho, Coma, Punto, Read, Write, Identificador, Entero, Caracter, Cadena, Error;
 
-non terminal INICIO, DECLARACION, DECLARACION_IMPLEMENTACION, FUNCION, TDATO, DATO, LISTA_ID, READ, WRITE, ELSE, 
+non terminal INICIO, DECLARACION, LISTA_ID, TDATO, DATO, DECLARACION_IMPLEMENTACION, IMPLEMENTACION, EXPRESION,
+    EXP_BOOL_BIN, EXP_ARIT_BIN, EXP_BOOL_UNA, EXP_ARIT_UNA,
+    READ, WRITE, ELSE, 
     FOR, IF, SWITCH, WHILE, DO;
 
 start with INICIO;
 
-INICIO ::= DECLARACION | DECLARACION_IMPLEMENTACION
+INICIO ::= DECLARACION | DECLARACION_IMPLEMENTACION | BLOQUE
 ;
-
 
 DECLARACION ::= TDATO LISTA_ID Puntoycoma
 ;
@@ -44,7 +45,20 @@ DATO ::= Entero | Caracter | Cadena
 ;
 
 
-DECLARACION_IMPLEMENTACION ::= TDATO Identificador Asignacion DATO Puntoycoma
+DECLARACION_IMPLEMENTACION ::= TDATO IMPLEMENTACION
+;
+
+IMPLEMENTACION ::= Identificador Asignacion DATO Puntoycoma
 ;
 
 
+EXPRESION ::= EXP_BOOL_BIN | EXP_ARIT_BIN | EXP_BOOL_UNA | EXP_ARIT_UNA
+;
+EXP_BOOL_BIN ::= Igual | Mayor_Igual | Menor_Igual | Diferente | Or_Logico | And_Logico | Mayor | Menor
+;
+EXP_ARIT_BIN ::= Suma_Asignacion | Resta_Asignacion | Multiplicacion_Asignacion | Division_Asignacion |
+                Suma | Resta | Multiplicacion | Division | Modulo
+;
+EXP_BOOL_UNA ::= Not_Logico
+;
+EXP_ARIT_UNA ::= Incremento | Decremento
