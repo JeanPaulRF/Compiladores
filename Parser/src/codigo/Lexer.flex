@@ -50,6 +50,7 @@ switch {lexeme=yytext(); return Switch;}
 void {lexeme=yytext(); return Void;} 
 while  {lexeme=yytext(); return While;} 
 
+"," {lexeme=yytext(); return Operador_Coma;}
 {enter} {lexeme=yytext(); return New_Line;}
 {espacio} {/*Ignore*/;}
 "//".* {/*Ignore*/;}
@@ -58,7 +59,7 @@ while  {lexeme=yytext(); return While;}
 "0"{O} {lexeme=yytext(); return Literal_Octal;}
 "0x"{H} {lexeme=yytext(); return Literal_Hexadecimal;}
 {D}+{L}+ {lexeme=yytext(); return Error_Alfanumerico;}
-"," {lexeme=yytext(); return Operador_Coma;}
+
 ">>" {lexeme=yytext(); return Operador_Desplazamiento_Derecha;}
 "<<" {lexeme=yytext(); return Operador_Desplazamiento_Izquierda;}
 "%=" {lexeme=yytext(); return Operador_Modulo_Asignacion;}
