@@ -50,5 +50,4 @@ public class Simbolo {
     public void setLineas(ArrayList<Point> lineas) {
         this.lineas = lineas;
     }
-
 }

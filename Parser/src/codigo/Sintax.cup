@@ -21,7 +21,8 @@ terminal Coma, Comillas, Case, Break, Const, Continue, Default, Do, Else, For, I
     Corchete_Izquierdo, Corchete_Derecho, Punto, Read, Write, Identificador, Entero, Caracter, Error;
 
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, IMPLEMENTACION, 
-    FUNCIONES, FUNCION, RETURN_TDATO, DECLARACION_SIMPLE, LISTA_SIM, BLOQUE, EXPRESION;
+    FUNCIONES, FUNCION, FUNCION_P, FUNCION_P2, RETURN_TDATO, DECLARACION_SIMPLE, LISTA_SIM, LISTA_SIM_P, STMT, EXPRESION,
+    IF, IF_ELSE, FOR, WHILE, SWITCH;
 
 start with INICIO;
 
@@ -31,8 +32,9 @@ INICIO ::=
     FUNCION INICIO
 ;
 
+
 DECLARACION ::= 
-    TDato LISTA_ID Puntoycoma |
+    TDato LISTA_ID Puntoycoma
 ;
 
 LISTA_ID ::= 
@@ -40,42 +42,48 @@ LISTA_ID ::=
 ;
 
 LISTA_ID_P ::= 
-    Coma Identificador LISTA_ID_P | 
+    Coma Identificador LISTA_ID_P |
 ;
 
 
-DECLARACION_IMPLEMENTACION ::= 
-    TDato Identificador Asignacion DATO Puntoycoma |
+
+DECLARACION_IMPLEMENTACION ::=
+    TDato Identificador Asignacion DATO Puntoycoma
 ;
 
-DATO ::= Entero | Caracter
+DATO ::=
+    Entero | Caracter
 ;
 
-FUNCIONES ::= 
-    FUNCION | FUNCION FUNCIONES
-;
-FUNCION ::= 
-    RETURN_TDATO Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
-    Parentesis_Derecho Corchete_Izquierdo BLOQUE Corchete_Derecho
+
+FUNCION ::=
+    _Void FUNCION_P |
+    TDato FUNCION_P
 ;
 
-RETURN_TDATO ::= 
-    TDato | _Void
+FUNCION_P ::= 
+    FUNCION_P2| FUNCION FUNCION_P2
+;
+
+FUNCION_P2 ::= Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
 ;
 
 DECLARACION_SIMPLE ::= 
-    TDato Identificador | TDato Identificador LISTA_SIM
+    TDato Identificador LISTA_SIM | 
 ;
 
-LISTA_SIM ::= Coma TDato Identificador LISTA_SIM | 
-;
-
-
-BLOQUE ::= 
-    DECLARACION BLOQUE | DECLARACION_IMPLEMENTACION BLOQUE | IMPLEMENTACION BLOQUE | 
+LISTA_SIM ::=
+    Coma TDato Identificador LISTA_SIM |
 ;
 
 
-EXPRESION ::= 
-    EXPRESION Op_Bin EXPRESION | Op_Una EXPRESION | Entero | Caracter | Identificador
+STMT ::= 
+    DECLARACION STMT | 
+    DECLARACION_IMPLEMENTACION STMT |
+    IF STMT |
+    IF_ELSE |
+    WHILE STMT |
+    FOR STMT |
+    SWITCH STMT |
 ;
