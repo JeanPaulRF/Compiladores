@@ -18,11 +18,12 @@ parser code
 terminal Coma, Comillas, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
     Switch, _Void, While, TDato, Op_Bin, Op_Una, Puntoycoma, Asignacion,
     Parentesis_Izquierdo, Parentesis_Derecho, Parentesis_Cuadrado_Izquierdo, Parentesis_Cuadrado_Derecho, 
-    Corchete_Izquierdo, Corchete_Derecho, Punto, Read, Write, Identificador, Entero, Caracter, Error;
+    Corchete_Izquierdo, Corchete_Derecho, Punto, Dos_Puntos, Read, Write, Identificador, Entero, Caracter, Error;
 
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, IMPLEMENTACION, 
-    FUNCIONES, FUNCION, FUNCION_P, FUNCION_P2, RETURN_TDATO, DECLARACION_SIMPLE, LISTA_SIM, LISTA_SIM_P, STMT, EXPRESION,
-    IF, IF_ELSE, FOR, WHILE, SWITCH;
+    FUNCIONES, FUNCION, FUNCION_P, FUNCION_P2, RETURN_TDATO, DECLARACION_SIMPLE, LISTA_SIM, LISTA_SIM_P, STMT, STMT_S,
+    EXPRESION, EXPRESION_P, EXPRESION_P2,
+    IF, ELSE, FOR, WHILE, SWITCH;
 
 start with INICIO;
 
@@ -82,8 +83,66 @@ STMT ::=
     DECLARACION STMT | 
     DECLARACION_IMPLEMENTACION STMT |
     IF STMT |
-    IF_ELSE |
     WHILE STMT |
     FOR STMT |
     SWITCH STMT |
+;
+
+
+IF ::= 
+    If Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE
+;
+
+ELSE ::=
+    Else Corchete_Izquierdo STMT Corchete_Derecho |
+;
+
+
+WHILE ::= 
+    While Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
+;
+
+
+FOR ::= 
+    FOR Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
+;
+
+
+SWITCH ::= 
+    Switch Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT_S Corchete_Derecho
+;
+
+
+STMT_S ::=
+    Case EXPRESION Dos_Puntos STMT STMT_S |
+    Default Dos_Puntos STMT
+;
+
+
+
+EXPRESION ::= 
+    Identificador | Caracter | Entero |
+    Identificador EXPRESION_P|
+    Caracter EXPRESION_P|
+    Entero EXPRESION_P |
+    Op_Una Identificador EXPRESION_P |
+    Op_Una Caracter EXPRESION_P |
+    Op_Una Entero EXPRESION_P
+;
+
+EXPRESION_P ::= 
+    Op_Bin EXPRESION_P2
+;
+
+EXPRESION_P2 ::= 
+    Identificador EXPRESION_P|
+    Caracter EXPRESION_P|
+    Entero EXPRESION_P|
+    Op_Una Identificador EXPRESION_P|
+    Op_Una Caracter EXPRESION_P|
+    Op_Una Entero EXPRESION_P|
 ;

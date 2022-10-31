@@ -64,6 +64,8 @@ espacio=[ ,\t,\r,\n]+
 
 ( "." ) {return new Symbol(sym.Punto, yychar, yyline, yytext());}
 
+( ":" ) {return new Symbol(sym.Dos_Puntos, yychar, yyline, yytext());}
+
 ( read ) {return new Symbol(sym.Read, yychar, yyline, yytext());}
 ( write ) {return new Symbol(sym.Write, yychar, yyline, yytext());}
 
