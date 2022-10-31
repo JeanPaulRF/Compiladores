@@ -35,7 +35,7 @@ INICIO ::=
 
 
 DECLARACION ::= 
-    TDato LISTA_ID Puntoycoma
+    TDato LISTA_ID Puntoycoma 
 ;
 
 LISTA_ID ::= 
@@ -49,7 +49,7 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato Identificador Asignacion DATO Puntoycoma
+    TDato Identificador Asignacion DATO Puntoycoma 
 ;
 
 DATO ::=
@@ -59,15 +59,15 @@ DATO ::=
 
 FUNCION ::=
     _Void FUNCION_P |
-    TDato FUNCION_P
+    TDato FUNCION_P Return
 ;
 
 FUNCION_P ::= 
-    FUNCION_P2| FUNCION FUNCION_P2
+    FUNCION_P2| FUNCION FUNCION_P2 
 ;
 
 FUNCION_P2 ::= Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho 
 ;
 
 DECLARACION_SIMPLE ::= 

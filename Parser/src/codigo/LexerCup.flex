@@ -51,7 +51,9 @@ espacio=[ ,\t,\r,\n]+
 ( "++" | "--" | "!") {return new Symbol(sym.Op_Bin, yychar, yyline, yytext());}
 
 
-( "==" | ">=" | "<=" | "!=" | "||" | "&&" | "+=" | "-=" | "*=" | "/=" | ">" | "<" | "=" | "+" | "-" | "*" | "/" | "%" ) {return new Symbol(sym.Op_Una, yychar, yyline, yytext());}
+( "==" | ">=" | "<=" | "!=" | "||" | "&&" | "+=" | "-=" | "*=" | "/=" | ">" | "<" | "+" | "-" | "*" | "/" | "%" ) {return new Symbol(sym.Op_Una, yychar, yyline, yytext());}
+
+( "=" ) {return new Symbol(sym.Asignacion, yychar, yyline, yytext());}
 
 ( ";" ) {return new Symbol(sym.Puntoycoma, yychar, yyline, yytext());}
 

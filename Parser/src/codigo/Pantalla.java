@@ -142,18 +142,30 @@ public class Pantalla extends javax.swing.JFrame {
         File archivo = con.archivo;
         try{
             BufferedReader br = new BufferedReader(new FileReader(archivo.getAbsolutePath()));
-            
-            String buffer;
-            String ST ="";
-            while ((buffer = br.readLine()) != null){
-                ST += buffer;
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = null;
+            String ls = System.getProperty("line.separator");
+            while ((line = br.readLine()) != null) {
+                    stringBuilder.append(line);
+                    stringBuilder.append(ls);
             }
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            br.close();
+            String ST = stringBuilder.toString();
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
-            s.parse();
+            s.debug_parse();
             parsingTxtField.setText("Sin errores sintácticos.");
+            System.out.println(s.getS());
         }
         catch(Exception e){
+            System.out.println("catch");
             Symbol sym = s.getS();
+            System.out.println(sym.value);
+            if (sym.value == null){
+                parsingTxtField.setText("Sin errores sintácticos.");
+                return;
+            }
+            System.out.println(e.getCause());
             parsingTxtField.setText("Error en el parseo. Línea: " + (sym.right+1) + " Columna: "+ (sym.left + 1)  +", Texto: \"" + sym.value + "\"");
             
         }
