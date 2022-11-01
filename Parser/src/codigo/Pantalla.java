@@ -155,7 +155,7 @@ public class Pantalla extends javax.swing.JFrame {
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
             parsingTxtField.setText("Sin errores sintácticos.");
-            System.out.println(s.getS());
+            //System.out.println(s.getS());
         }
         catch(Exception e){
             System.out.println("catch");

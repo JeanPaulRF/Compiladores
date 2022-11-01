@@ -4,21 +4,36 @@ import java_cup.runtime.Symbol;
 
 parser code
 {:
-    private Symbol s;
+    public Symbol s;
     
-    public void syntax_error(Symbol s){
-        this.s = s;
-    }
+    /**
+     * 
+     * Método al que se llama automáticamente ante algún error sintactico.
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+    } 
+
+    /**
+     * Método al que se llama automáticamente ante algún error sintáctico 
+     * en el que ya no es posible una recuperación de errores.
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido."); 
+    } 
 
     public Symbol getS(){
         return this.s;
-}
+    }
 :};
 
 terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
     Switch, _Void, While, TDato, Op_Bin, Op_Una, Puntoycoma, Asignacion,
     Parentesis_Izquierdo, Parentesis_Derecho, 
-    Corchete_Izquierdo, Corchete_Derecho, Dos_Puntos, Read, Write, Identificador, Entero, Caracter, Error;
+    Corchete_Izquierdo, Corchete_Derecho, Dos_Puntos, Read, Write, Identificador, Entero, Caracter;
 
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
     FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S,
@@ -30,13 +45,14 @@ start with INICIO;
 INICIO ::= 
     DECLARACION INICIO | 
     DECLARACION_IMPLEMENTACION INICIO | 
-    FUNCION INICIO
+    FUNCION INICIO |
 ;
 
 
 DECLARACION ::= 
     TDato LISTA_ID Puntoycoma |
-    Const TDato LISTA_ID Puntoycoma
+    Const TDato LISTA_ID Puntoycoma |
+    TDato error Puntoycoma {: System.out.println("ERROR SINTACTICO"); :}
 ;
 
 LISTA_ID ::= 

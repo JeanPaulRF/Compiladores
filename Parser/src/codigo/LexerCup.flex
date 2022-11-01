@@ -71,7 +71,8 @@ espacio=[ ,\t,\r,\n]+
 
 (\'[^\']\')|(\'\'\'\')|("#"{D}) {return new Symbol(sym.Caracter, yychar, yyline, yytext());}
 
- . {return new Symbol(sym.Error, yychar, yyline, yytext());}
+ . {System.out.println("Este es un error lexico: "+yytext()+
+    ", en la linea: "+yyline+", en la columna: "+yychar);}
 
 
 
