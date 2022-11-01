@@ -131,7 +131,7 @@ public class Pantalla extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+static public String errores = "";
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Controlador con = new codigo.Controlador();
         con.scanearArchivo();
@@ -140,6 +140,7 @@ public class Pantalla extends javax.swing.JFrame {
         setErrores(tokens);
         Sintax s = null;
         File archivo = con.archivo;
+        
         try{
             BufferedReader br = new BufferedReader(new FileReader(archivo.getAbsolutePath()));
             StringBuilder stringBuilder = new StringBuilder();
@@ -154,7 +155,12 @@ public class Pantalla extends javax.swing.JFrame {
             String ST = stringBuilder.toString();
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
-            parsingTxtField.setText("Sin errores sintácticos.");
+            if (errores.equals("")){
+                parsingTxtField.setText("Sin errores sintácticos.");
+                return;
+            }
+            parsingTxtField.setText(errores);
+            errores = "";
             //System.out.println(s.getS());
         }
         catch(Exception e){
@@ -163,6 +169,7 @@ public class Pantalla extends javax.swing.JFrame {
             System.out.println(sym.value);
             if (sym.value == null){
                 parsingTxtField.setText("Sin errores sintácticos.");
+                parsingTxtField.setText(errores);
                 return;
             }
             System.out.println(e.getCause());

@@ -11,8 +11,8 @@ parser code
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
     public void syntax_error(Symbol s){ 
-        System.out.println("Error Sintáctico en la Línea " + (s.left) +
-        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+        Pantalla.errores += "Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".\n"; 
     } 
 
     /**
@@ -52,7 +52,7 @@ INICIO ::=
 DECLARACION ::= 
     TDato LISTA_ID Puntoycoma |
     Const TDato LISTA_ID Puntoycoma |
-    TDato error Puntoycoma {: System.out.println("ERROR SINTACTICO"); :}
+    TDato error Puntoycoma {: Pantalla.errores += "ERROR SINTACTICO \n"; :}
 ;
 
 LISTA_ID ::= 
