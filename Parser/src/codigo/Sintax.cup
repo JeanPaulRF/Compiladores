@@ -175,6 +175,7 @@ LISTA_EXP_P ::=
 
 
 EXPRESION ::= 
+    Parentesis_Izquierdo EXPRESION Parentesis_Derecho |
     Identificador | Caracter | Entero |
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
@@ -185,10 +186,12 @@ EXPRESION ::=
 ;
 
 EXPRESION_P ::= 
+    Parentesis_Izquierdo EXPRESION_P Parentesis_Derecho |
     Op_Bin EXPRESION_P2
 ;
 
 EXPRESION_P2 ::= 
+    Parentesis_Izquierdo EXPRESION_P2 Parentesis_Derecho |
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
     Entero EXPRESION_P|
