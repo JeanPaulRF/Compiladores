@@ -29,9 +29,6 @@ espacio=[ ,\t,\r,\n]+
 /* Espacion en blanco */
 {espacio} {/*Ignore*/;}
 
-/* Comillas */
-( "\"" ) {return new Symbol(sym.Comillas, yychar, yyline, yytext());}
-
 ( break ) {return new Symbol(sym.Break, yychar, yyline, yytext());}
 ( case ) {return new Symbol(sym.Case, yychar, yyline, yytext());}
 ( const ) {return new Symbol(sym.Const, yychar, yyline, yytext());} 
@@ -59,12 +56,8 @@ espacio=[ ,\t,\r,\n]+
 
 ( "(" ) {return new Symbol(sym.Parentesis_Izquierdo, yychar, yyline, yytext());}
 ( ")" ) {return new Symbol(sym.Parentesis_Derecho, yychar, yyline, yytext());}
-( "[" ) {return new Symbol(sym.Parentesis_Cuadrado_Izquierdo, yychar, yyline, yytext());}
-( "]" ) {return new Symbol(sym.Parentesis_Cuadrado_Derecho, yychar, yyline, yytext());}
 ( "{" ) {return new Symbol(sym.Corchete_Izquierdo, yychar, yyline, yytext());}
 ( "}" ) {return new Symbol(sym.Corchete_Derecho, yychar, yyline, yytext());}
-
-( "." ) {return new Symbol(sym.Punto, yychar, yyline, yytext());}
 
 ( ":" ) {return new Symbol(sym.Dos_Puntos, yychar, yyline, yytext());}
 

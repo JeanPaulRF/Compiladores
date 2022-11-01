@@ -15,15 +15,15 @@ parser code
 }
 :};
 
-terminal Coma, Comillas, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
+terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
     Switch, _Void, While, TDato, Op_Bin, Op_Una, Puntoycoma, Asignacion,
-    Parentesis_Izquierdo, Parentesis_Derecho, Parentesis_Cuadrado_Izquierdo, Parentesis_Cuadrado_Derecho, 
-    Corchete_Izquierdo, Corchete_Derecho, Punto, Dos_Puntos, Read, Write, Identificador, Entero, Caracter, Error;
+    Parentesis_Izquierdo, Parentesis_Derecho, 
+    Corchete_Izquierdo, Corchete_Derecho, Dos_Puntos, Read, Write, Identificador, Entero, Caracter, Error;
 
-non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, IMPLEMENTACION, 
-    FUNCIONES, FUNCION, FUNCION_P, FUNCION_P2, RETURN_TDATO, DECLARACION_SIMPLE, LISTA_SIM, LISTA_SIM_P, STMT, STMT_S,
-    EXPRESION, EXPRESION_P, EXPRESION_P2,
-    IF, ELSE, FOR, WHILE, SWITCH;
+non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
+    FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S,
+    EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
+    IF, ELSE, FOR, WHILE, SWITCH, DO_WHILE;
 
 start with INICIO;
 
@@ -35,7 +35,8 @@ INICIO ::=
 
 
 DECLARACION ::= 
-    TDato LISTA_ID Puntoycoma 
+    TDato LISTA_ID Puntoycoma |
+    Const TDato LISTA_ID Puntoycoma
 ;
 
 LISTA_ID ::= 
@@ -49,7 +50,8 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato Identificador Asignacion DATO Puntoycoma 
+    TDato Identificador Asignacion DATO Puntoycoma |
+    Const TDato Identificador Asignacion DATO Puntoycoma
 ;
 
 DATO ::=
@@ -85,7 +87,13 @@ STMT ::=
     IF STMT |
     WHILE STMT |
     FOR STMT |
+    DO_WHILE |
     SWITCH STMT |
+    Break STMT |
+    Continue |
+    READ |
+    WRITE |
+    Return |
 ;
 
 
@@ -106,8 +114,14 @@ WHILE ::=
 
 
 FOR ::= 
-    FOR Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
+    For Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
+;
+
+
+DO_WHILE ::=
+    Do Corchete_Izquierdo STMT Corchete_Derecho
+    While Parentesis_Izquierdo EXPRESION Parentesis_Derecho Puntoycoma
 ;
 
 
@@ -120,6 +134,26 @@ SWITCH ::=
 STMT_S ::=
     Case EXPRESION Dos_Puntos STMT STMT_S |
     Default Dos_Puntos STMT
+;
+
+
+READ ::=
+    Read Parentesis_Izquierdo Identificador Parentesis_Derecho Puntoycoma |
+    Read Parentesis_Izquierdo Parentesis_Derecho Puntoycoma
+;
+
+
+WRITE ::=
+    Write Parentesis_Izquierdo LISTA_EXP Parentesis_Derecho Puntoycoma
+;
+
+
+LISTA_EXP ::= 
+    EXPRESION LISTA_EXP_P
+;
+
+LISTA_EXP_P ::=
+    Coma EXPRESION LISTA_EXP_P |
 ;
 
 
