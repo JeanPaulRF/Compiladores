@@ -12,7 +12,7 @@ parser code
      **/ 
     public void syntax_error(Symbol s){ 
         Pantalla.errores += "Error Sintáctico en la Línea " + (s.left) +
-        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".\n"; 
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".\n\r"; 
     } 
 
     /**

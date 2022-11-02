@@ -41,8 +41,9 @@ public class Pantalla extends javax.swing.JFrame {
         tokensTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        parsingTxtField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        parsingTxtField = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,13 +79,11 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
 
-        parsingTxtField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                parsingTxtFieldActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Parseo");
+
+        parsingTxtField.setColumns(20);
+        parsingTxtField.setRows(5);
+        jScrollPane3.setViewportView(parsingTxtField);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,9 +104,10 @@ public class Pantalla extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(480, 480, 480)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(parsingTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,8 +125,9 @@ public class Pantalla extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel3)
-                .addGap(7, 7, 7)
-                .addComponent(parsingTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -178,10 +179,6 @@ static public String errores = "";
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void parsingTxtFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parsingTxtFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_parsingTxtFieldActionPerformed
 
     private void setTokens(ContarToken tabla){
         DefaultTableModel model = (DefaultTableModel) tokensTable.getModel();
@@ -258,7 +255,8 @@ static public String errores = "";
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField parsingTxtField;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea parsingTxtField;
     private javax.swing.JTable tokensTable;
     // End of variables declaration//GEN-END:variables
 
