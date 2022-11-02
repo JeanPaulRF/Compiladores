@@ -63,10 +63,10 @@ public class Controlador {
                 if (tokens == null) {
                     resultado += "FIN";
                     for (int i = 0; i < contador.tokens.size(); i++) {
-                        System.out.println("Tipo: " + contador.tokens.get(i).tipo + " Se repite: " + contador.tokens.get(i).cantidad + " Token: " + contador.tokens.get(i).token);
+                        //System.out.println("Tipo: " + contador.tokens.get(i).tipo + " Se repite: " + contador.tokens.get(i).cantidad + " Token: " + contador.tokens.get(i).token);
 
                         for (int j = 0; j < contador.tokens.get(i).lineas.size(); j++) {
-                            System.out.println("Linea: " + contador.tokens.get(i).lineas.get(j).x + " Se repite: " + contador.tokens.get(i).lineas.get(j).y);
+                            //System.out.println("Linea: " + contador.tokens.get(i).lineas.get(j).x + " Se repite: " + contador.tokens.get(i).lineas.get(j).y);
 
                         }
                     }
