@@ -153,7 +153,7 @@ public class Pantalla extends javax.swing.JFrame {
             br.close();
             String ST = stringBuilder.toString();
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
-            s.debug_parse();
+            s.parse();
             parsingTxtField.setText("Sin errores sintácticos.");
             //System.out.println(s.getS());
         }

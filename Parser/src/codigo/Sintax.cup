@@ -52,32 +52,42 @@ INICIO ::=
 DECLARACION ::= 
     TDato LISTA_ID Puntoycoma |
     Const TDato LISTA_ID Puntoycoma |
-    TDato error Puntoycoma {: System.out.println("ERROR SINTACTICO"); :}
+    error LISTA_ID Puntoycoma |
+    error TDato LISTA_ID Puntoycoma |
+    Const error LISTA_ID Puntoycoma 
 ;
 
 LISTA_ID ::= 
-    Identificador LISTA_ID_P
+    Identificador LISTA_ID_P |
+    error LISTA_ID_P
 ;
 
 LISTA_ID_P ::= 
     Coma Identificador LISTA_ID_P |
+    error Identificador LISTA_ID_P |
+    Coma error LISTA_ID_P |
 ;
 
 
 
 DECLARACION_IMPLEMENTACION ::=
     TDato Identificador Asignacion DATO Puntoycoma |
-    Const TDato Identificador Asignacion DATO Puntoycoma
+    Const TDato Identificador Asignacion DATO Puntoycoma |
+    error Identificador Asignacion DATO Puntoycoma |
+    TDato error Asignacion DATO Puntoycoma |
+    TDato Identificador error DATO Puntoycoma |
+    TDato Identificador Asignacion DATO error 
 ;
 
 DATO ::=
-    Entero | Caracter
+    Entero | Caracter | error
 ;
 
 
 FUNCION ::=
     _Void FUNCION_P |
-    TDato FUNCION_P Return
+    TDato FUNCION_P Return |
+    error FUNCION_P | error FUNCION_P Return | TDato FUNCION_P error
 ;
 
 FUNCION_P ::= 
@@ -85,15 +95,26 @@ FUNCION_P ::=
 ;
 
 FUNCION_P2 ::= Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    error Parentesis_Izquierdo DECLARACION_SIMPLE 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    Identificador error DECLARACION_SIMPLE 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
+    error Corchete_Izquierdo STMT Corchete_Derecho |
+    Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
+    Parentesis_Derecho error STMT Corchete_Derecho 
 ;
 
 DECLARACION_SIMPLE ::= 
-    TDato Identificador LISTA_SIM | 
+    TDato Identificador LISTA_SIM |
+    TDato error LISTA_SIM |
 ;
 
 LISTA_SIM ::=
     Coma TDato Identificador LISTA_SIM |
+    Coma error Identificador LISTA_SIM |
+    Coma TDato error LISTA_SIM |
 ;
 
 
@@ -110,57 +131,109 @@ STMT ::=
     READ |
     WRITE |
     Return |
+    error |
 ;
 
 
 IF ::= 
     If Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
+    error Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
+    If error EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
+    If Parentesis_Izquierdo EXPRESION 
+    error Corchete_Izquierdo STMT Corchete_Derecho ELSE |
+    If Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho error STMT Corchete_Derecho ELSE     
 ;
 
 ELSE ::=
-    Else Corchete_Izquierdo STMT Corchete_Derecho |
+    Else Corchete_Izquierdo STMT Corchete_Derecho | 
+    Else error STMT Corchete_Derecho |
 ;
 
 
 WHILE ::= 
     While Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    While error EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    While Parentesis_Izquierdo EXPRESION 
+    error Corchete_Izquierdo STMT Corchete_Derecho |
+    While Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho error STMT Corchete_Derecho 
 ;
 
 
 FOR ::= 
     For Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    For error EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    For Parentesis_Izquierdo EXPRESION error EXPRESION Puntoycoma EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    For Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION error EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    For Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
+    error Corchete_Izquierdo STMT Corchete_Derecho |
+    For Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
+    Parentesis_Derecho error STMT Corchete_Derecho 
 ;
 
 
 DO_WHILE ::=
     Do Corchete_Izquierdo STMT Corchete_Derecho
-    While Parentesis_Izquierdo EXPRESION Parentesis_Derecho Puntoycoma
+    While Parentesis_Izquierdo EXPRESION Parentesis_Derecho Puntoycoma |
+    Do error STMT Corchete_Derecho
+    While Parentesis_Izquierdo EXPRESION Parentesis_Derecho Puntoycoma |
+    Do Corchete_Izquierdo STMT Corchete_Derecho
+    While Parentesis_Izquierdo EXPRESION error Puntoycoma |
+    Do Corchete_Izquierdo STMT Corchete_Derecho
+    While Parentesis_Izquierdo EXPRESION Parentesis_Derecho error 
 ;
 
 
 SWITCH ::= 
     Switch Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT_S Corchete_Derecho
+    Parentesis_Derecho Corchete_Izquierdo STMT_S Corchete_Derecho |
+    error Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT_S Corchete_Derecho |
+    Switch error EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT_S Corchete_Derecho |
+    Switch Parentesis_Izquierdo EXPRESION 
+    error Corchete_Izquierdo STMT_S Corchete_Derecho |
+    Switch Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho error STMT_S Corchete_Derecho 
 ;
 
 
 STMT_S ::=
     Case EXPRESION Dos_Puntos STMT STMT_S |
-    Default Dos_Puntos STMT
+    Default Dos_Puntos STMT |
+    Case EXPRESION error STMT STMT_S |
+    Default error STMT 
 ;
 
 
 READ ::=
     Read Parentesis_Izquierdo Identificador Parentesis_Derecho Puntoycoma |
-    Read Parentesis_Izquierdo Parentesis_Derecho Puntoycoma
+    Read Parentesis_Izquierdo Parentesis_Derecho Puntoycoma |
+    Read error Identificador Parentesis_Derecho Puntoycoma |
+    Read Parentesis_Izquierdo error Parentesis_Derecho Puntoycoma |
+    Read Parentesis_Izquierdo Identificador error Puntoycoma |
+    Read Parentesis_Izquierdo Identificador Parentesis_Derecho error |
+    Read error Parentesis_Derecho Puntoycoma |
+    Read Parentesis_Izquierdo error Puntoycoma |
+    Read Parentesis_Izquierdo Parentesis_Derecho error 
 ;
 
 
 WRITE ::=
-    Write Parentesis_Izquierdo LISTA_EXP Parentesis_Derecho Puntoycoma
+    Write Parentesis_Izquierdo LISTA_EXP Parentesis_Derecho Puntoycoma |
+    Write error LISTA_EXP Parentesis_Derecho Puntoycoma |
+    Write Parentesis_Izquierdo LISTA_EXP error Puntoycoma |
+    Write Parentesis_Izquierdo LISTA_EXP Parentesis_Derecho error 
 ;
 
 
@@ -176,26 +249,33 @@ LISTA_EXP_P ::=
 
 EXPRESION ::= 
     Parentesis_Izquierdo EXPRESION Parentesis_Derecho |
+    error EXPRESION Parentesis_Derecho |
+    Parentesis_Izquierdo EXPRESION error |
     Identificador | Caracter | Entero |
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
     Entero EXPRESION_P |
+    error EXPRESION_P |
     Op_Una Identificador EXPRESION_P |
     Op_Una Caracter EXPRESION_P |
-    Op_Una Entero EXPRESION_P
+    Op_Una Entero EXPRESION_P |
+    Op_Una error EXPRESION_P 
 ;
 
 EXPRESION_P ::= 
     Parentesis_Izquierdo EXPRESION_P Parentesis_Derecho |
-    Op_Bin EXPRESION_P2
+    Op_Bin EXPRESION_P2 |
+    Parentesis_Izquierdo EXPRESION_P error 
 ;
 
 EXPRESION_P2 ::= 
     Parentesis_Izquierdo EXPRESION_P2 Parentesis_Derecho |
+    Parentesis_Izquierdo EXPRESION_P2 error |
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
     Entero EXPRESION_P|
     Op_Una Identificador EXPRESION_P|
     Op_Una Caracter EXPRESION_P|
     Op_Una Entero EXPRESION_P|
+    Op_Una error EXPRESION_P|
 ;
