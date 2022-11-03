@@ -37,7 +37,7 @@ terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
 
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
     FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN,
-    EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
+    EXPRESION, EXPRESION_P, EXPRESION_P2, EXPRESION_P3, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
     IF, ELSE, FOR, WHILE, SWITCH, DO_WHILE;
 
 start with INICIO;
@@ -280,6 +280,9 @@ EXPRESION ::=
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
     Entero EXPRESION_P |
+    Op_Una Identificador |
+    Op_Una Caracter |
+    Op_Una Entero |
     Op_Una Identificador EXPRESION_P |
     Op_Una Caracter EXPRESION_P |
     Op_Una Entero EXPRESION_P |
@@ -293,19 +296,22 @@ EXPRESION ::=
 EXPRESION_P ::= 
     Parentesis_Izquierdo EXPRESION_P Parentesis_Derecho |
     Op_Bin EXPRESION_P2 |
-
-    Parentesis_Izquierdo EXPRESION_P error 
+    Parentesis_Izquierdo EXPRESION_P error
 ;
 
 EXPRESION_P2 ::= 
     Parentesis_Izquierdo EXPRESION_P2 Parentesis_Derecho |
-    Identificador EXPRESION_P|
-    Caracter EXPRESION_P|
-    Entero EXPRESION_P|
-    Op_Una Identificador EXPRESION_P|
-    Op_Una Caracter EXPRESION_P|
-    Op_Una Entero EXPRESION_P|
+    Identificador EXPRESION_P3|
+    Caracter EXPRESION_P3|
+    Entero EXPRESION_P3|
+    Op_Una Identificador EXPRESION_P3|
+    Op_Una Caracter EXPRESION_P3|
+    Op_Una Entero EXPRESION_P3|
 
     Parentesis_Izquierdo EXPRESION_P2 error |
-    Op_Una error EXPRESION_P|
+    Op_Una error EXPRESION_P3
+;
+
+EXPREXION_P3 ::=
+    EXPRESION_P |
 ;
