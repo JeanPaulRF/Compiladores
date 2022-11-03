@@ -36,7 +36,7 @@ terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
     Corchete_Izquierdo, Corchete_Derecho, Dos_Puntos, Read, Write, Identificador, Entero, Caracter;
 
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
-    FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S,
+    FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN,
     EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
     IF, ELSE, FOR, WHILE, SWITCH, DO_WHILE;
 
@@ -139,9 +139,15 @@ STMT ::=
     Continue |
     READ |
     WRITE |
-    Return |
-
+    RETURN |
     error |
+;
+
+RETURN ::= 
+    Return Identificador | 
+    Return Caracter | 
+    Return Entero |
+    Return
 ;
 
 
