@@ -48,10 +48,10 @@ enter=[\r,\n,\r\n]+
 
 ( int | long | short | char ) {return new Symbol(sym.TDato, yyline, yychar, yytext());}
 
-( "++" | "--" | "!") {return new Symbol(sym.Op_Bin, yyline, yychar, yytext());}
+( "++" | "--" | "!") {return new Symbol(sym.Op_Una, yyline, yychar, yytext());}
 
 
-( "==" | ">=" | "<=" | "!=" | "||" | "&&" | "+=" | "-=" | "*=" | "/=" | ">" | "<" | "+" | "-" | "*" | "/" | "%" ) {return new Symbol(sym.Op_Una, yyline, yychar, yytext());}
+( "==" | ">=" | "<=" | "!=" | "||" | "&&" | "+=" | "-=" | "*=" | "/=" | ">" | "<" | "+" | "-" | "*" | "/" | "%" ) {return new Symbol(sym.Op_Bin, yyline, yychar, yytext());}
 
 ( "=" ) {return new Symbol(sym.Asignacion, yyline, yychar, yytext());}
 
