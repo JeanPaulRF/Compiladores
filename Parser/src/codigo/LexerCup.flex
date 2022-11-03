@@ -17,8 +17,8 @@ import java_cup.runtime.Symbol;
 
 L=[a-zA-Z_]+
 D=[0-9]+
-espacio=[ ,\t,\r]+
-
+espacio=[ ,\t]+
+enter=[\r,\n,\r\n]+
 
 %%
 
@@ -26,6 +26,8 @@ espacio=[ ,\t,\r]+
 ( "//"(.)* ) {/*Ignore*/}
 
 ( "," ) {return new Symbol(sym.Coma, yyline, yychar, yytext());}
+
+{enter} {yychar=1; /*Ignore*/;}
 
 /* Espacion en blanco */
 {espacio} {/*Ignore*/;}
@@ -65,8 +67,6 @@ espacio=[ ,\t,\r]+
 ( read ) {return new Symbol(sym.Read, yyline, yychar, yytext());}
 ( write ) {return new Symbol(sym.Write, yyline, yychar, yytext());}
 
-\n {yychar=1;}
-
 /* Identificador */
 {L}({L}|{D})* {return new Symbol(sym.Identificador, yyline, yychar, yytext());}
 
@@ -74,8 +74,7 @@ espacio=[ ,\t,\r]+
 
 (\'[^\']\')|(\'\'\'\')|("#"{D}) {return new Symbol(sym.Caracter, yyline, yychar, yytext());}
 
- . {Pantalla.errores += "Este es un error lexico: "+yytext()+
-    ", en la linea: "+yyline+", en la columna: "+yychar+ "\n";}
+ . {Pantalla.errores += "";}
 
 
 

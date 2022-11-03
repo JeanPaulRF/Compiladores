@@ -12,7 +12,7 @@ parser code
      **/ 
     public void syntax_error(Symbol s){ 
         Pantalla.errores += "Error Sintáctico en la Línea " + (s.left) +
-        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".\n\r"; 
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"\n\r"; 
     } 
 
     /**
@@ -22,7 +22,7 @@ parser code
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
         System.out.println("Error síntactico irrecuperable en la Línea " + 
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
-        " no reconocido."); 
+        " no reconocido"); 
     } 
 
     public Symbol getS(){
@@ -105,17 +105,19 @@ FUNCION_P2 ::= Identificador Parentesis_Izquierdo DECLARACION_SIMPLE
 
     error Parentesis_Izquierdo DECLARACION_SIMPLE 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+
     Identificador error DECLARACION_SIMPLE 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+
     Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
     error Corchete_Izquierdo STMT Corchete_Derecho |
+
     Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
     Parentesis_Derecho error STMT Corchete_Derecho 
 ;
 
 DECLARACION_SIMPLE ::= 
     TDato Identificador LISTA_SIM |
-
     TDato error LISTA_SIM |
 ;
 
