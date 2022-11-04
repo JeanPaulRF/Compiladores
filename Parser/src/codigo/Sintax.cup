@@ -45,7 +45,7 @@ start with INICIO;
 INICIO ::= 
     DECLARACION INICIO | 
     DECLARACION_IMPLEMENTACION INICIO | 
-    FUNCION INICIO |
+    FUNCION INICIO
 ;
 
 
@@ -55,7 +55,7 @@ DECLARACION ::=
 
     error LISTA_ID Puntoycoma |
     error TDato LISTA_ID Puntoycoma |
-    Const error LISTA_ID Puntoycoma 
+    Const error LISTA_ID Puntoycoma
 ;
 
 LISTA_ID ::= 
@@ -79,7 +79,7 @@ DECLARACION_IMPLEMENTACION ::=
 
     error Identificador Asignacion DATO Puntoycoma |
     TDato error Asignacion DATO Puntoycoma |
-    TDato Identificador error DATO Puntoycoma 
+    TDato Identificador error DATO Puntoycoma
 ;
 
 DATO ::=
@@ -282,6 +282,9 @@ EXPRESION ::=
     Op_Una Identificador EXPRESION_P |
     Op_Una Caracter EXPRESION_P |
     Op_Una Entero EXPRESION_P |
+    Identificador Op_Una EXPRESION_P |
+    Caracter Op_Una EXPRESION_P |
+    Entero Op_Una EXPRESION_P |
     
     
     Parentesis_Izquierdo EXPRESION error |
