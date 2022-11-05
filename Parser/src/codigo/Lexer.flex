@@ -9,8 +9,8 @@ L=[a-zA-Z_]+
 D=[0-9]+
 O=[0-7]+
 H=[0-9A-Fa-f]
-espacio=[ ,\t]+
-enter=[\r,\n,\r\n]+
+espacio=[ \t]+
+enter=[\r\n]+
 
 %{
     public String lexeme;

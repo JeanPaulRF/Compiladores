@@ -17,8 +17,8 @@ import java_cup.runtime.Symbol;
 
 L=[a-zA-Z_]+
 D=[0-9]+
-espacio=[ ,\t]+
-enter=[\r,\n,\r\n]+
+espacio=[ \t]+
+enter=[\r\n]+
 
 %%
 
@@ -27,10 +27,10 @@ enter=[\r,\n,\r\n]+
 
 ( "," ) {return new Symbol(sym.Coma, yyline, yychar, yytext());}
 
-{enter} {yychar=1; /*Ignore*/;}
+{enter} {yychar=1;}
 
 /* Espacion en blanco */
-{espacio} {/*Ignore*/;}
+{espacio} {}
 
 ( break ) {return new Symbol(sym.Break, yyline, yychar, yytext());}
 ( case ) {return new Symbol(sym.Case, yyline, yychar, yytext());}
@@ -63,6 +63,8 @@ enter=[\r,\n,\r\n]+
 ( "}" ) {return new Symbol(sym.Corchete_Derecho, yyline, yychar, yytext());}
 
 ( ":" ) {return new Symbol(sym.Dos_Puntos, yyline, yychar, yytext());}
+
+
 
 ( read ) {return new Symbol(sym.Read, yyline, yychar, yytext());}
 ( write ) {return new Symbol(sym.Write, yyline, yychar, yytext());}

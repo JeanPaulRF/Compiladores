@@ -43,9 +43,9 @@ non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEM
 start with INICIO;
 
 INICIO ::= 
-    DECLARACION INICIO | 
-    DECLARACION_IMPLEMENTACION INICIO | 
-    FUNCION INICIO
+    DECLARACION INICIO {: System.out.println("hola1"); :} | 
+    DECLARACION_IMPLEMENTACION INICIO {: System.out.println("hola"); :} | 
+    FUNCION INICIO {: System.out.println("hola"); :}
 ;
 
 
@@ -91,9 +91,9 @@ DATO ::=
 
 FUNCION ::=
     _Void FUNCION_P |
-    TDato FUNCION_P Return |
+    TDato FUNCION_P |
 
-    error FUNCION_P | error FUNCION_P Return | TDato FUNCION_P error
+    error FUNCION_P
 ;
 
 FUNCION_P ::= 
@@ -138,18 +138,18 @@ STMT ::=
     DO_WHILE |
     SWITCH STMT |
     Break STMT |
-    Continue |
-    READ |
-    WRITE |
+    Continue STMT |
+    READ STMT |
+    WRITE STMT |
     RETURN |
     error |
 ;
 
 RETURN ::= 
-    Return Identificador | 
-    Return Caracter | 
-    Return Entero |
-    Return
+    Return Identificador Puntoycoma | 
+    Return Caracter Puntoycoma | 
+    Return Entero Puntoycoma |
+    Return Puntoycoma 
 ;
 
 
