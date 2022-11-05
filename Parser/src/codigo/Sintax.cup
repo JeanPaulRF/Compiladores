@@ -36,7 +36,7 @@ terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
     Corchete_Izquierdo, Corchete_Derecho, Dos_Puntos, Read, Write, Identificador, Entero, Caracter;
 
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
-    FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN,
+    FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN, ASIGNACION,
     EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
     IF, ELSE, FOR, WHILE, SWITCH, DO_WHILE;
 
@@ -132,13 +132,14 @@ LISTA_SIM ::=
 STMT ::= 
     DECLARACION STMT | 
     DECLARACION_IMPLEMENTACION STMT |
+    ASIGNACION STMT |
     IF STMT |
     WHILE STMT |
     FOR STMT |
     DO_WHILE |
     SWITCH STMT |
-    Break STMT |
-    Continue STMT |
+    Break Puntoycoma STMT |
+    Continue Puntoycoma STMT |
     READ STMT |
     WRITE STMT |
     RETURN |
@@ -146,10 +147,13 @@ STMT ::=
 ;
 
 RETURN ::= 
-    Return Identificador Puntoycoma | 
-    Return Caracter Puntoycoma | 
-    Return Entero Puntoycoma |
-    Return Puntoycoma 
+    Return EXPRESION Puntoycoma
+;
+
+
+ASIGNACION ::=
+    Identificador Asignacion DATO Puntoycoma|
+    error Puntoycoma
 ;
 
 
@@ -202,6 +206,9 @@ FOR ::=
     For Parentesis_Izquierdo EXPRESION Puntoycoma EXPRESION Puntoycoma EXPRESION 
     Parentesis_Derecho error STMT Corchete_Derecho 
 ;
+
+
+
 
 
 DO_WHILE ::=
@@ -307,6 +314,9 @@ EXPRESION_P2 ::=
     Op_Una Identificador EXPRESION_P|
     Op_Una Caracter EXPRESION_P|
     Op_Una Entero EXPRESION_P|
+    Identificador Op_Una EXPRESION_P|
+    Caracter Op_Una EXPRESION_P|
+    Entero Op_Una EXPRESION_P|
 
     Parentesis_Izquierdo EXPRESION_P2 error |
     Op_Una error EXPRESION_P|
