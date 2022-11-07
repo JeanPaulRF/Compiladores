@@ -906,8 +906,10 @@ public class Sintax extends java_cup.runtime.lr_parser {
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
     public void syntax_error(Symbol s){ 
-        Pantalla.errores += "Error Sintáctico en la Línea " + (s.left) +
-        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"\n\r"; 
+        if (s.value != null){
+            Pantalla.errores += "Error Sintáctico en la Línea " + (s.left) +
+            " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"\n\r"; 
+        }
     } 
 
     /**
