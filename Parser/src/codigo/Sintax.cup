@@ -46,7 +46,7 @@ start with INICIO;
 
 INICIO ::= 
     DECLARACION INICIO| 
-    DECLARACION_IMPLEMENTACION INICIO | 
+    DECLARACION_IMPLEMENTACION Puntoycoma INICIO | 
     FUNCION INICIO  
 ;
 
@@ -76,11 +76,11 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato Identificador Asignacion EXPRESION Puntoycoma |
-    Const TDato Identificador Asignacion EXPRESION Puntoycoma |
+    TDato Identificador Asignacion EXPRESION |
+    Const TDato Identificador Asignacion EXPRESION |
 
-    error Identificador Asignacion EXPRESION Puntoycoma |
-    TDato error Asignacion EXPRESION Puntoycoma
+    error Identificador Asignacion EXPRESION |
+    TDato error Asignacion EXPRESION 
 ;
 
 

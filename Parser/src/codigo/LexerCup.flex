@@ -30,7 +30,7 @@ enter=[\r\n]+
 {enter} {yychar=1;}
 
 /* Espacion en blanco */
-{espacio} {}
+{espacio} {/*Ignore*/;}
 
 ( break ) {return new Symbol(sym.Break, yyline, yychar, yytext());}
 ( case ) {return new Symbol(sym.Case, yyline, yychar, yytext());}
