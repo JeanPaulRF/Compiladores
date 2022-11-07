@@ -302,7 +302,7 @@ LISTA_EXP_P ::=
 
 
 EXPRESION ::= 
-    Parentesis_Izquierdo EXPRESION Parentesis_Derecho |
+    Parentesis_Izquierdo EXPRESION Parentesis_Derecho EXPRESION_P|
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
     Entero EXPRESION_P |
@@ -323,22 +323,6 @@ EXPRESION ::=
 ;
 
 EXPRESION_P ::= 
-    Op_Bin EXPRESION_P2 |
-    Asignacion EXPRESION_P2 |
-;
-
-EXPRESION_P2 ::= 
-    Parentesis_Izquierdo EXPRESION_P2 Parentesis_Derecho |
-    Identificador EXPRESION_P|
-    Caracter EXPRESION_P|
-    Entero EXPRESION_P|
-    Op_Una Identificador EXPRESION_P|
-    Op_Una Caracter EXPRESION_P|
-    Op_Una Entero EXPRESION_P|
-    Identificador Op_Una EXPRESION_P|
-    Caracter Op_Una EXPRESION_P|
-    Entero Op_Una EXPRESION_P|
-
-    Parentesis_Izquierdo EXPRESION_P2 error |
-    Op_Una error EXPRESION_P|
+    Op_Bin EXPRESION |
+    Asignacion EXPRESION |
 ;
