@@ -74,12 +74,11 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato Identificador Asignacion DATO Puntoycoma |
-    Const TDato Identificador Asignacion DATO Puntoycoma |
+    TDato Identificador Asignacion EXPRESION Puntoycoma |
+    Const TDato Identificador Asignacion EXPRESION Puntoycoma |
 
-    error Identificador Asignacion DATO Puntoycoma |
-    TDato error Asignacion DATO Puntoycoma |
-    TDato Identificador error DATO Puntoycoma
+    error Identificador Asignacion EXPRESION Puntoycoma |
+    TDato error Asignacion EXPRESION Puntoycoma
 ;
 
 
@@ -303,18 +302,20 @@ LISTA_EXP_P ::=
 
 
 EXPRESION ::= 
-    LLAMADA_FUNCION EXPRESION_P |
     Parentesis_Izquierdo EXPRESION Parentesis_Derecho |
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
     Entero EXPRESION_P |
+    LLAMADA_FUNCION EXPRESION_P |
+    LLAMADA_FUNCION_P EXPRESION_P |
+    Op_Una LLAMADA_FUNCION EXPRESION_P |
+    Op_Una LLAMADA_FUNCION_P EXPRESION_P |
     Op_Una Identificador EXPRESION_P |
     Op_Una Caracter EXPRESION_P |
     Op_Una Entero EXPRESION_P |
     Identificador Op_Una EXPRESION_P |
     Caracter Op_Una EXPRESION_P |
     Entero Op_Una EXPRESION_P |
-    LLAMADA_FUNCION_P EXPRESION_P |
     
     Parentesis_Izquierdo EXPRESION error |
     error EXPRESION_P |
