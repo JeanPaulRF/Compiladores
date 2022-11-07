@@ -38,14 +38,14 @@ terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
     FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN, ASIGNACION,
     EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
-    IF, ELSE, FOR, FOR_P, WHILE, SWITCH, DO_WHILE;
+    IF, ELSE, FOR, FOR_P, WHILE, SWITCH, DO_WHILE, LLAMADA_FUNCION,LISTA_DATOS, LISTA_DATOS_P, LLAMADA_FUNCION_P;
 
 start with INICIO;
 
 INICIO ::= 
-    DECLARACION INICIO {: System.out.println("hola1"); :} | 
-    DECLARACION_IMPLEMENTACION INICIO {: System.out.println("hola"); :} | 
-    FUNCION INICIO {: System.out.println("hola"); :}
+    DECLARACION INICIO| 
+    DECLARACION_IMPLEMENTACION INICIO | 
+    FUNCION INICIO  
 ;
 
 
@@ -82,12 +82,20 @@ DECLARACION_IMPLEMENTACION ::=
     TDato Identificador error DATO Puntoycoma
 ;
 
-DATO ::=
-    Entero | Caracter |
-    
-    error
+
+LISTA_DATOS ::= 
+    Identificador LISTA_DATOS_P |
+    Entero LISTA_DATOS_P |
+    Caracter LISTA_DATOS_P  
 ;
 
+LISTA_DATOS_P ::= 
+    Coma Identificador LISTA_DATOS_P |
+    Coma Entero LISTA_DATOS_P |
+    Coma Caracter LISTA_DATOS_P |
+    error Identificador LISTA_DATOS_P |
+    Coma error LISTA_DATOS_P |
+;
 
 FUNCION ::=
     _Void FUNCION_P |
@@ -116,6 +124,14 @@ FUNCION_P2 ::= Identificador Parentesis_Izquierdo DECLARACION_SIMPLE
     Parentesis_Derecho error STMT Corchete_Derecho 
 ;
 
+LLAMADA_FUNCION ::= Identificador Parentesis_Izquierdo LISTA_DATOS Parentesis_Derecho
+                    
+;
+
+LLAMADA_FUNCION_P ::= Identificador Parentesis_Izquierdo Parentesis_Derecho 
+
+;
+
 DECLARACION_SIMPLE ::= 
     TDato Identificador LISTA_SIM |
     TDato error LISTA_SIM |
@@ -142,6 +158,8 @@ STMT ::=
     Continue Puntoycoma STMT |
     READ STMT |
     WRITE STMT |
+    LLAMADA_FUNCION Puntoycoma STMT|
+    LLAMADA_FUNCION_P Puntoycoma STMT |
     RETURN |
     error |
 ;
@@ -285,6 +303,7 @@ LISTA_EXP_P ::=
 
 
 EXPRESION ::= 
+    LLAMADA_FUNCION EXPRESION_P |
     Parentesis_Izquierdo EXPRESION Parentesis_Derecho |
     Identificador EXPRESION_P|
     Caracter EXPRESION_P|
@@ -295,7 +314,7 @@ EXPRESION ::=
     Identificador Op_Una EXPRESION_P |
     Caracter Op_Una EXPRESION_P |
     Entero Op_Una EXPRESION_P |
-    
+    LLAMADA_FUNCION_P EXPRESION_P |
     
     Parentesis_Izquierdo EXPRESION error |
     error EXPRESION_P |
@@ -303,10 +322,8 @@ EXPRESION ::=
 ;
 
 EXPRESION_P ::= 
-    Parentesis_Izquierdo EXPRESION_P Parentesis_Derecho |
     Op_Bin EXPRESION_P2 |
     Asignacion EXPRESION_P2 |
-    Parentesis_Izquierdo EXPRESION_P error  |
 ;
 
 EXPRESION_P2 ::= 
