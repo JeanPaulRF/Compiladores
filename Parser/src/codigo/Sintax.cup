@@ -161,6 +161,8 @@ STMT ::=
     WRITE STMT |
     LLAMADA_FUNCION Puntoycoma STMT|
     LLAMADA_FUNCION_P Puntoycoma STMT |
+    Identificador Puntoycoma STMT |
+    Identificador Op_Una Puntoycoma STMT |
     RETURN |
     error |
 ;
@@ -310,18 +312,15 @@ EXPRESION ::=
     Entero EXPRESION_P |
     LLAMADA_FUNCION EXPRESION_P |
     LLAMADA_FUNCION_P EXPRESION_P |
-    Op_Una LLAMADA_FUNCION EXPRESION_P |
-    Op_Una LLAMADA_FUNCION_P EXPRESION_P |
-    Op_Una Identificador EXPRESION_P |
-    Op_Una Caracter EXPRESION_P |
-    Op_Una Entero EXPRESION_P |
+    LLAMADA_FUNCION Op_Una EXPRESION_P |
+    LLAMADA_FUNCION_P Op_Una EXPRESION_P |
     Identificador Op_Una EXPRESION_P |
     Caracter Op_Una EXPRESION_P |
     Entero Op_Una EXPRESION_P |
     
     Parentesis_Izquierdo EXPRESION error |
-    error EXPRESION_P |
-    Op_Una error EXPRESION_P 
+    error Op_Una EXPRESION_P |
+    error EXPRESION_P 
 ;
 
 EXPRESION_P ::= 
