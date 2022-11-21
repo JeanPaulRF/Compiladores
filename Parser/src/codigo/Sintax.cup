@@ -52,8 +52,8 @@ INICIO ::=
 
 
 DECLARACION ::= 
-    TDato LISTA_ID Puntoycoma |
-    Const TDato LISTA_ID Puntoycoma |
+    TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTS(); :}|
+    Const TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); :}|
 
     error LISTA_ID Puntoycoma |
     error TDato LISTA_ID Puntoycoma |
@@ -61,14 +61,12 @@ DECLARACION ::=
 ;
 
 LISTA_ID ::= 
-    Identificador LISTA_ID_P |
-
+    Identificador:i LISTA_ID_P {: Semantic.recuerdaId((String) i); :} |
     error LISTA_ID_P
 ;
 
 LISTA_ID_P ::= 
-    Coma Identificador LISTA_ID_P |
-
+    Coma Identificador:i LISTA_ID_P {: Semantic.recuerdaId((String) i); :}|
     error Identificador LISTA_ID_P |
     Coma error LISTA_ID_P |
 ;

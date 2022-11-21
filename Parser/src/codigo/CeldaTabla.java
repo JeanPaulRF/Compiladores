@@ -4,12 +4,16 @@
  */
 package codigo;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author jeanp
  */
-public class PS {
-    public ArrayList<RS> pila;
+public class CeldaTabla {
+    public String nombre;
+    public String tipo;
+
+    public CeldaTabla(String nombre, String tipo) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+    }
 }

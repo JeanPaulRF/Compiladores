@@ -11,5 +11,5 @@ import java.util.ArrayList;
  * @author jeanp
  */
 public class TS {
-    public static ArrayList<RS> tabla;
+    public ArrayList<RS> tabla;
 }

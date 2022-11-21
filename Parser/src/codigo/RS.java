@@ -11,4 +11,10 @@ package codigo;
 public class RS {
     public String nombre;
     public String token;
+
+    public RS(String nombre, String token) {
+        this.nombre = nombre;
+        this.token = token;
+    }
+        
 }
