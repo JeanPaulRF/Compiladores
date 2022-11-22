@@ -11,9 +11,13 @@ package codigo;
 public class CeldaTabla {
     public String nombre;
     public String tipo;
+    public String valor;
+    public String tagError;
 
     public CeldaTabla(String nombre, String tipo) {
         this.nombre = nombre;
         this.tipo = tipo;
+        this.valor = "";
+        this.tagError = "";
     }
 }

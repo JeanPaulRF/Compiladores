@@ -4,6 +4,7 @@
  */
 package codigo;
 
+import codigo.RS.RS;
 import java.util.ArrayList;
 
 /**

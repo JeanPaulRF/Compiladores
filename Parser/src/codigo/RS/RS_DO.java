@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package codigo;
+package codigo.RS;
 
 /**
  *
  * @author jeanp
  */
-public class RS {
-    public String nombre;
-    public String token;
+public class RS_DO extends RS{
+    public String valor;
+    public String tipo;
 
-    public RS(String nombre, String token) {
-        this.nombre = nombre;
+    public RS_DO(String token, String valor, String tipo) {
         this.token = token;
+        this.valor = valor;
+        this.tipo = tipo;
     }
-        
 }
