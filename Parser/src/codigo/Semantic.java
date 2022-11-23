@@ -108,6 +108,7 @@ public abstract class Semantic {
     }
     
     
+    //if-else
     public static void startIf(){
         RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
         pila.push(rsIf);
@@ -129,6 +130,24 @@ public abstract class Semantic {
         pila.pop();
     }
     
+    
+    //while
+    public static void startWhile(){
+        RS_WHILE rsWhile = new RS_WHILE("while", "While_Label", "Exit_Label");
+        pila.push(rsWhile);
+    }
+    
+    public static void testWhile(){
+        RS_DO rsDo = (RS_DO) pila.pop();
+        //Generar codigo
+        //Generar jump
+    }
+    
+    public static void endWhile(){
+        //Generar Jump
+        //Generar label
+        pila.pop();
+    }
     
     
     //imprimir tabla
