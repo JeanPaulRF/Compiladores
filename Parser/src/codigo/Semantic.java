@@ -87,23 +87,48 @@ public abstract class Semantic {
         if(rs2.token != operador.token || operador.token != rs1.token)
             System.out.println("VALORES Y OPERADOR DIFERENTES");
         else{
+            RS_DO nuevo = null;
             if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
                 ScriptEngineManager manager = new ScriptEngineManager(); 
                 ScriptEngine interprete = manager.getEngineByName("js"); 
                 try { 
                     String valor = (String) interprete.eval(rs1.valor + operador.operador + rs2.valor); 
-                    RS_DO nuevo = new RS_DO("expresion", valor, "constante");
+                    nuevo = new RS_DO("expresion", valor, "constante");
                 } 
                 catch(ScriptException se) { 
                     se.printStackTrace(); 
                 } 
             }
             else{
-                
+                //codigo
+                nuevo = new RS_DO("expresion", "", "direccion");
             }
-        }
-            
+            pila.push(nuevo);
+        } 
     }
+    
+    
+    public static void startIf(){
+        RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
+        pila.push(rsIf);
+    }
+    
+    public static void testIf(){
+        RS_DO rsDo = (RS_DO) pila.pop();
+        //Generar codigo
+        //Generar jump
+    }
+    
+    public static void startElse(){
+        //Generar jump
+        //Generar else label
+    }
+    
+    public static void endIf(){
+        //Generar exit label
+        pila.pop();
+    }
+    
     
     
     //imprimir tabla
