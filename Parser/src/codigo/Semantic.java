@@ -19,6 +19,7 @@ public abstract class Semantic {
     public static Stack<RS> pila = new Stack<RS>();
     public static ArrayList<CeldaTabla> tabla = new ArrayList<CeldaTabla>();
     
+    
     //DECLARACION
     public static void recuerdaTipo(String tipo){
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
@@ -146,6 +147,39 @@ public abstract class Semantic {
     public static void endWhile(){
         //Generar Jump
         //Generar label
+        pila.pop();
+    }
+    
+    
+    //for
+    public static void startFor(){
+        RS_FOR rsFor = new RS_FOR("for", "For_Label", "Exit_Label");
+        pila.push(rsFor);
+    }
+    
+    public static void exp1For(){
+        pila.pop();
+        //Generar label
+    }
+    
+    public static void exp2For(){
+        RS_DO rsDO = (RS_DO) pila.pop();
+        //Generar codigo segun RS_DO
+        //Generar jump
+        //Cambiar el archivo a uno temporal
+        //Guardar el nombre del archivo en RS_FOR
+    }
+    
+    public static void exp3For(){
+        //Cambiar el archivo
+        pila.pop();
+    }
+    
+    public static void endFor(){
+        //copiar el archivo de la exp3
+        //eliminar el archivo temporal
+        //Generar jump + for_label
+        //Generar exit label
         pila.pop();
     }
     
