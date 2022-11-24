@@ -18,6 +18,7 @@ import javax.script.ScriptException;
 public abstract class Semantic {
     public static Stack<RS> pila = new Stack<RS>();
     public static ArrayList<CeldaTabla> tabla = new ArrayList<CeldaTabla>();
+    public static ArrayList<String> errores = new ArrayList<String>();
     
     
     //DECLARACION
@@ -39,7 +40,8 @@ public abstract class Semantic {
             if (!estaEnTS(rsId.nombre))
                 tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo));
             else
-                System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);
+                errores.add("SE REPITE LA VARIABLE: " + rsId.nombre + " en la línea: ");
+                //System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);
             
         }
         imprimirTS();
@@ -70,6 +72,7 @@ public abstract class Semantic {
             celda.tagError = "Variable no declarada";
             tabla.add(celda);
             System.out.println("VARIABLE NO DECLARADA: " + nombre);
+            errores.add("VARIABLE NO DECLARADA: " + nombre + " en la línea: ");
         }
         pila.push(rsDo);
     }
@@ -85,8 +88,10 @@ public abstract class Semantic {
         RS_DO rs2 = (RS_DO) pila.pop();
         RS_Operador operador = (RS_Operador) pila.pop();
         RS_DO rs1 = (RS_DO) pila.pop();
-        if(rs2.token != operador.token || operador.token != rs1.token)
+        if(rs2.token != operador.token || operador.token != rs1.token){
             System.out.println("VALORES Y OPERADOR DIFERENTES");
+            errores.add("VALORES Y OPERADOR DIFERENTES: " + operador.token  + " en la línea: ");
+        }
         else{
             RS_DO nuevo = null;
             if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
