@@ -53,7 +53,7 @@ INICIO ::=
 
 DECLARACION ::= 
     TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSDecla(); :}|
-    Const TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTS(); :}|
+    Const TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSDecla(); :}|
 
     error LISTA_ID Puntoycoma |
     error TDato LISTA_ID Puntoycoma |
@@ -74,8 +74,8 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato:t Identificador:i Asignacion EXPRESION {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) d); Semantic.recuerdaTSDecla(); :}|
-    Const TDato:t Identificador:i Asignacion EXPRESION {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) d); Semantic.recuerdaTSDecla(); :}|
+    TDato:t Identificador:i Asignacion EXPRESION |
+    Const TDato:t Identificador:i Asignacion EXPRESION |
 
     error Identificador Asignacion EXPRESION |
     TDato error Asignacion EXPRESION 
@@ -305,16 +305,16 @@ LISTA_EXP_P ::=
 
 EXPRESION ::= 
     Parentesis_Izquierdo EXPRESION Parentesis_Derecho EXPRESION_P|
-    Identificador:i EXPRESION_P {: Semantic.recuerdaVarExp((String i)) :}|
+    Identificador:i EXPRESION_P |
     Caracter EXPRESION_P |
-    Entero:i EXPRESION_P {: Semantic.recuerdaConstExp((String i)) :}|
+    Entero:i EXPRESION_P |
     LLAMADA_FUNCION EXPRESION_P |
     LLAMADA_FUNCION_P EXPRESION_P |
     LLAMADA_FUNCION Op_Una EXPRESION_P |
     LLAMADA_FUNCION_P Op_Una EXPRESION_P |
-    Identificador:i Op_Una EXPRESION_P {: Semantic.recuerdaVarExp((String i)) :}|
+    Identificador:i Op_Una EXPRESION_P |
     Caracter Op_Una EXPRESION_P |
-    Entero:i Op_Una EXPRESION_P {: Semantic.recuerdaConstExp((String i)) :}|
+    Entero:i Op_Una EXPRESION_P |
     
     Parentesis_Izquierdo EXPRESION error |
     error Op_Una EXPRESION_P |
@@ -322,6 +322,6 @@ EXPRESION ::=
 ;
 
 EXPRESION_P ::= 
-    Op_Bin:o EXPRESION {: Semantic.recuertaOperExp((String i)) :}|
+    Op_Bin:o EXPRESION |
     Asignacion EXPRESION |
 ;

@@ -33,7 +33,7 @@ public abstract class Semantic {
         pila.push(rsId);
     }
     
-    public static void recuerdaTS(){
+    public static void recuerdaTSDecla(){
         RS_Tipo rsTipo = (RS_Tipo) pila.pop();
         while(!pila.isEmpty() && pila.peek().token == "identificador"){
             RS_Id rsId = (RS_Id) pila.pop();
@@ -81,6 +81,35 @@ public abstract class Semantic {
     public static void recuerdaOperExp(String operador){
         RS_Operador rsOp = new RS_Operador("expresion", operador);
         pila.push(rsOp);
+    }
+    
+    
+    public static void evalUnary(){
+        RS_Operador operador = (RS_Operador) pila.pop();
+        RS_DO rs = (RS_DO) pila.pop();
+        if(rs.token != operador.token){
+            System.out.println("VALORES Y OPERADOR DIFERENTES");
+            errores.add("VALORES Y OPERADOR DIFERENTES: " + operador.token  + " en la línea: ");
+        }
+        else{
+            RS_DO nuevo = null;
+            if(rs.tipo == "constante"){
+                ScriptEngineManager manager = new ScriptEngineManager(); 
+                ScriptEngine interprete = manager.getEngineByName("js"); 
+                try { 
+                    String valor = (String) interprete.eval(rs.valor + operador.operador); 
+                    nuevo = new RS_DO("expresion", valor, "constante");
+                } 
+                catch(ScriptException se) { 
+                    se.printStackTrace(); 
+                } 
+            }
+            else{
+                //codigo
+                nuevo = new RS_DO("expresion", "", "direccion");
+            }
+            pila.push(nuevo);
+        } 
     }
     
     
@@ -156,6 +185,7 @@ public abstract class Semantic {
     }
     
     
+    /*
     //for
     public static void startFor(){
         RS_FOR rsFor = new RS_FOR("for", "For_Label", "Exit_Label");
@@ -187,7 +217,7 @@ public abstract class Semantic {
         //Generar exit label
         pila.pop();
     }
-    
+    */
     
     //imprimir tabla
     public static void imprimirTS(){
