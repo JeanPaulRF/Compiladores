@@ -65,10 +65,10 @@ public class Pantalla extends javax.swing.JFrame {
 
         tokensTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+                {null, null, null, null}
             },
             new String [] {
-                "Símbolo", "Tipo de símbolo", "Parámetros"
+                "Símbolo", "Tipo de símbolo", "Ámbito", "Parámetros"
             }
         ));
         jScrollPane2.setViewportView(tokensTable);
@@ -179,12 +179,13 @@ static public String errores = "";
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
             setSimbolos(Semantic.tabla);
+            semanticoTxtField.setText(Semantic.errores);
             if (errores.equals("")){
                 parsingTxtField.setText("Sin errores sintácticos.");
                 return;
             }
             parsingTxtField.setText(errores);
-            semanticoTxtField.setText(Semantic.errores);
+            System.out.println(Semantic.errores);
             errores = "";
             Semantic.errores = "";
             Semantic.tabla.clear();
@@ -211,12 +212,13 @@ static public String errores = "";
 
     private void setSimbolos(ArrayList<CeldaTabla> tabla){
         DefaultTableModel model = (DefaultTableModel) tokensTable.getModel();
-        String[] cols = { "Símbolo", "Tipo de símbolo", "Parámetros"};
-        String[][] data = new String[tabla.size()][3];
+        String[] cols = { "Símbolo", "Tipo de símbolo", "Ámbito","Parámetros"};
+        String[][] data = new String[tabla.size()][4];
         for (int i = 0; i < tabla.size(); i++) {   
             data[i][0] =  tabla.get(i).nombre;
             data[i][1] = tabla.get(i).tipo;
             data[i][2] = tabla.get(i).valor;
+            data[i][3] = tabla.get(i).valor;
             
         }
         model.setDataVector(data, cols);
