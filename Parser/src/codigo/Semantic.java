@@ -194,6 +194,24 @@ public abstract class Semantic {
     }
     
     
+    
+    //funciones
+    public static void recuerdaTSFunc(String nombre){
+        RS_Tipo rsTipo = (RS_Tipo) pila.pop();
+        RS_Id rsId = (RS_Id) pila.pop();
+        if (!estaEnTS(rsId.nombre)){
+            System.out.println("En tabla");
+            tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo));
+        }
+        else{
+            errores += "SE REPITE LA FUNCION: " + rsId.nombre + " en la línea: \n\r";
+            System.out.println("SE REPITE LA FUNCION: " + rsId.nombre);
+        }
+        imprimirTS();
+    }
+    
+    
+    
     /*
     //for
     public static void startFor(){

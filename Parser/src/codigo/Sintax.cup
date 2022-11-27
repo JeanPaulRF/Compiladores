@@ -73,7 +73,7 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato:t Identificador:i Asignacion EXPRESION {: Semantic.recuerdaId((String) i); Semantic.recuerdaTipo((String) t); :}|
+    TDato:t Identificador:i Asignacion EXPRESION {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); :}|
     Const TDato:t Identificador:i Asignacion EXPRESION |
 
     error Identificador Asignacion EXPRESION |
@@ -96,8 +96,8 @@ LISTA_DATOS_P ::=
 ;
 
 FUNCION ::=
-    _Void FUNCION_P |
-    TDato FUNCION_P |
+    _Void:t FUNCION_P {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSFunc:}|
+    TDato:t FUNCION_P {: Semantic.recuerdaTipo((String) t); :}|
 
     error FUNCION_P
 ;
@@ -106,8 +106,8 @@ FUNCION_P ::=
     FUNCION_P2| FUNCION FUNCION_P2 
 ;
 
-FUNCION_P2 ::= Identificador Parentesis_Izquierdo DECLARACION_SIMPLE 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+FUNCION_P2 ::= Identificador:i Parentesis_Izquierdo DECLARACION_SIMPLE 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.recuerdaId((String) i) :}|
 
     error Parentesis_Izquierdo DECLARACION_SIMPLE 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
