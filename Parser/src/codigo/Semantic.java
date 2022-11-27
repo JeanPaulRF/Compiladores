@@ -23,6 +23,7 @@ public abstract class Semantic {
     
     //DECLARACION
     public static void recuerdaTipo(String tipo){
+        System.out.println("a");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
         //System.out.println("EL TIPO ES: " + token);
@@ -37,8 +38,10 @@ public abstract class Semantic {
         RS_Tipo rsTipo = (RS_Tipo) pila.pop();
         while(!pila.isEmpty() && pila.peek().token == "identificador"){
             RS_Id rsId = (RS_Id) pila.pop();
-            if (!estaEnTS(rsId.nombre))
+            if (!estaEnTS(rsId.nombre)){
+                System.out.println("En tabla");
                 tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo));
+            }
             else
                 errores.add("SE REPITE LA VARIABLE: " + rsId.nombre + " en la línea: ");
                 //System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);

@@ -164,7 +164,6 @@ static public String errores = "";
         setErrores(tokens);
         Sintax s = null;
         File archivo = con.archivo;
-        setSimbolos(Semantic.tabla);
         try{
             BufferedReader br = new BufferedReader(new FileReader(archivo.getAbsolutePath()));
             StringBuilder stringBuilder = new StringBuilder();
@@ -179,7 +178,7 @@ static public String errores = "";
             String ST = stringBuilder.toString();
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
-            
+            setSimbolos(Semantic.tabla);
             if (errores.equals("")){
                 parsingTxtField.setText("Sin errores sintácticos.");
                 return;
@@ -190,7 +189,7 @@ static public String errores = "";
         }
         
         catch(Exception e){
-            System.out.println("catch");
+            System.out.println(e.toString());
             Symbol sym = s.getS();
             System.out.println(sym.value);
             if (sym.value == null){
@@ -216,7 +215,6 @@ static public String errores = "";
             data[i][2] = tabla.get(i).valor;
             
         }
-        data[0][0] = "a";
         model.setDataVector(data, cols);
     }
     private void setTokens(ContarToken tabla){
