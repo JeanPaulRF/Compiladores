@@ -24,7 +24,7 @@ public abstract class Semantic {
     
     //DECLARACION
     public static void recuerdaTipo(String tipo){
-        System.out.println("a");
+        //System.out.println("a");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
         //System.out.println("EL TIPO ES: " + token);

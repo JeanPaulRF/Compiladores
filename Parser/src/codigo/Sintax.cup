@@ -73,7 +73,7 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato:t Identificador:i Asignacion EXPRESION |
+    TDato:t Identificador:i Asignacion EXPRESION {: Semantic.recuerdaId((String) i); Semantic.recuerdaTipo((String) t); :}|
     Const TDato:t Identificador:i Asignacion EXPRESION |
 
     error Identificador Asignacion EXPRESION |
