@@ -166,6 +166,8 @@ static public String errores = "";
         File archivo = con.archivo;
         try{
             BufferedReader br = new BufferedReader(new FileReader(archivo.getAbsolutePath()));
+            String fileName = archivo.getAbsolutePath().substring(archivo.getAbsolutePath().lastIndexOf("\\")+1);
+            fileName = fileName.split("[.]")[0];
             StringBuilder stringBuilder = new StringBuilder();
             String line = null;
             String ls = System.getProperty("line.separator");
@@ -179,7 +181,7 @@ static public String errores = "";
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
             setSimbolos(Semantic.tabla);
-            escribirEnsamblador.escribirTraduccion(Semantic.codigoASM);
+            escribirEnsamblador.escribirTraduccion(Semantic.codigoASM, fileName);
             Semantic.tabla.clear();
             Semantic.pila.clear();
             semanticoTxtField.setText(Semantic.errores);

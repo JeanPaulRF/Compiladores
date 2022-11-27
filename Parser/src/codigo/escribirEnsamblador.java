@@ -15,10 +15,10 @@ import java.io.IOException;
  * @author Mauricio
  */
 public class escribirEnsamblador {
-    public static void escribirTraduccion(String codigo) {
+    public static void escribirTraduccion(String codigo, String nombre) {
     try {
-      File myObj = new File("C:/Compiladores/Parser/src/ensamblador/traduccion.asm");
-      FileWriter writer = new FileWriter("C:/Compiladores/Parser/src/ensamblador/traduccion.asm");
+      File myObj = new File("C:/Compiladores/Parser/src/ensamblador/"+nombre+".asm");
+      FileWriter writer = new FileWriter("C:/Compiladores/Parser/src/ensamblador/"+nombre+".asm");
       writer.write(codigo);
       writer.close();
     } catch (IOException e) {
