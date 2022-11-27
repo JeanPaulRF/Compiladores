@@ -40,7 +40,7 @@ terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
 non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
     FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN, ASIGNACION,
     EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
-    IF, ELSE, FOR, FOR_P, WHILE, SWITCH, DO_WHILE, LLAMADA_FUNCION,LISTA_DATOS, LISTA_DATOS_P, LLAMADA_FUNCION_P;
+    IF, IF_ELSE, ELSE, FOR, FOR_P, WHILE, SWITCH, DO_WHILE, LLAMADA_FUNCION,LISTA_DATOS, LISTA_DATOS_P, LLAMADA_FUNCION_P;
 
 start with INICIO;
 
@@ -177,7 +177,7 @@ ASIGNACION ::=
 
 IF ::= 
     If Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE {: Semantic.startIf(); Semantic.testIf(); Semantic.endIf(); :} |
 
     error Parentesis_Izquierdo EXPRESION 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
@@ -190,16 +190,15 @@ IF ::=
 ;
 
 ELSE ::=
-    Else Corchete_Izquierdo STMT Corchete_Derecho | 
+    Else Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.startElse(); :}| 
 
-    Else error STMT Corchete_Derecho |
+    Else error STMT Corchete_Derecho
 ;
 
 
 WHILE ::= 
     While Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
-
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.startWhile(); Semantic.testWhile(); Semantic.endWhile(); :}|
     While error EXPRESION 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
     While Parentesis_Izquierdo EXPRESION 
