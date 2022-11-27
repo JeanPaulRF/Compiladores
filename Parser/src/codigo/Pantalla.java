@@ -184,7 +184,11 @@ static public String errores = "";
                 return;
             }
             parsingTxtField.setText(errores);
+            semanticoTxtField.setText(Semantic.errores);
             errores = "";
+            Semantic.errores = "";
+            Semantic.tabla.clear();
+            Semantic.pila.clear();
             //System.out.println(s.getS());
         }
         
