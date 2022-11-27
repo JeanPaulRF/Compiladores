@@ -96,8 +96,8 @@ LISTA_DATOS_P ::=
 ;
 
 FUNCION ::=
-    _Void:t FUNCION_P {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSFunc:}|
-    TDato:t FUNCION_P {: Semantic.recuerdaTipo((String) t); :}|
+    _Void:t FUNCION_P {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSFunc(); :} |
+    TDato:t FUNCION_P {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSFunc(); :} |
 
     error FUNCION_P
 ;
@@ -107,7 +107,7 @@ FUNCION_P ::=
 ;
 
 FUNCION_P2 ::= Identificador:i Parentesis_Izquierdo DECLARACION_SIMPLE 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.recuerdaId((String) i) :}|
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.recuerdaId((String) i); :}|
 
     error Parentesis_Izquierdo DECLARACION_SIMPLE 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
@@ -192,7 +192,7 @@ IF ::=
 ELSE ::=
     Else Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.startElse(); :}| 
 
-    Else error STMT Corchete_Derecho
+    Else error STMT Corchete_Derecho |
 ;
 
 

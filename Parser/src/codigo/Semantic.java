@@ -20,11 +20,14 @@ public abstract class Semantic {
     public static ArrayList<CeldaTabla> tabla = new ArrayList<CeldaTabla>();
     public static String errores = new String();
     public static ArrayList<String> listaErrores = new ArrayList<String>();
+    public static String codigoASM = new String();
+    public static String codigoElse = new String();
     
     
     //DECLARACION
     public static void recuerdaTipo(String tipo){
         //System.out.println("a");
+        System.out.println(tipo + " zzzzzz");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
         //System.out.println("EL TIPO ES: " + token);
@@ -40,8 +43,7 @@ public abstract class Semantic {
         while(!pila.isEmpty() && pila.peek().token == "identificador"){
             RS_Id rsId = (RS_Id) pila.pop();
             if (!estaEnTS(rsId.nombre)){
-                System.out.println("En tabla");
-                tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo));
+                tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo, "variable global"));
             }
             else{
                 errores += "SE REPITE LA VARIABLE: " + rsId.nombre + " en la línea: \n\r";
@@ -49,7 +51,6 @@ public abstract class Semantic {
             }
             
         }
-        imprimirTS();
     }
     
     private static boolean estaEnTS(String token){
@@ -73,7 +74,7 @@ public abstract class Semantic {
     public static void recuerdaVarExp(String nombre){
         RS_DO rsDo = new RS_DO("expresion", nombre, "direccion");
         if(!estaEnTS(nombre)){
-            CeldaTabla celda = new CeldaTabla(rsDo.valor, rsDo.tipo);
+            CeldaTabla celda = new CeldaTabla(rsDo.valor, rsDo.tipo, "variable local");
             celda.tagError = "Variable no declarada";
             tabla.add(celda);
             System.out.println("VARIABLE NO DECLARADA: " + nombre);
@@ -150,28 +151,32 @@ public abstract class Semantic {
     
     //if-else
     public static void startIf(){
-        System.out.println("startIf");
-        //RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
-        //pila.push(rsIf);
+        //System.out.println("startIf");
+        RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
+        pila.push(rsIf);
     }
     
     public static void testIf(){
-        System.out.println("testIf");
+        //System.out.println("testIf");
         //RS_DO rsDo = (RS_DO) pila.pop();
-        //Generar codigo
+        //Generar codigo segun RS_DO
+        RS_IF rsIf = (RS_IF) pila.pop();
         //Generar jump
+        codigoASM += "jump condicional " + rsIf.labelElse + "\n";
+        pila.push(rsIf);
     }
     
     public static void startElse(){
-        System.out.println("startElse");
-        //Generar jump
-        //Generar else label
+        //System.out.println("startElse");
+        codigoElse = "jump Exit_Label\nElse_Label:\n";
     }
     
     public static void endIf(){
-        System.out.println("endIf");
+        //System.out.println("endIf");
         //Generar exit label
-       // pila.pop();
+        codigoASM+= codigoElse + "\n";
+        codigoASM+= "Exit_Label:\n";
+        pila.pop();
     }
     
     
@@ -196,12 +201,13 @@ public abstract class Semantic {
     
     
     //funciones
-    public static void recuerdaTSFunc(String nombre){
+    public static void recuerdaTSFunc(){
+        System.out.println("HOLAAAAAA");
         RS_Tipo rsTipo = (RS_Tipo) pila.pop();
         RS_Id rsId = (RS_Id) pila.pop();
         if (!estaEnTS(rsId.nombre)){
-            System.out.println("En tabla");
-            tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo));
+            System.out.println("En tabla FUNCION");
+            tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo, "funcion"));
         }
         else{
             errores += "SE REPITE LA FUNCION: " + rsId.nombre + " en la línea: \n\r";

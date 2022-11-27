@@ -13,10 +13,12 @@ public class CeldaTabla {
     public String tipo;
     public String valor;
     public String tagError;
+    public String definicion;
 
-    public CeldaTabla(String nombre, String tipo) {
+    public CeldaTabla(String nombre, String tipo, String definicion) {
         this.nombre = nombre;
         this.tipo = tipo;
+        this.definicion = definicion;
         this.valor = "";
         this.tagError = "";
     }

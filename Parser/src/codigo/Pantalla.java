@@ -179,12 +179,14 @@ static public String errores = "";
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
             setSimbolos(Semantic.tabla);
-            escribirEnsamblador.escribirTraduccion(Semantic.errores);
+            escribirEnsamblador.escribirTraduccion(Semantic.codigoASM);
             Semantic.tabla.clear();
             Semantic.pila.clear();
             semanticoTxtField.setText(Semantic.errores);
             Semantic.errores = "";
             Semantic.errores = "";
+            Semantic.codigoElse = "";
+            Semantic.codigoASM = "";
             if (errores.equals("")){
                 parsingTxtField.setText("Sin errores sintácticos.");
                 return;
