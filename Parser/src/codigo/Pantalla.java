@@ -179,6 +179,9 @@ static public String errores = "";
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
             s.debug_parse();
             setSimbolos(Semantic.tabla);
+            Semantic.errores = "";
+            Semantic.tabla.clear();
+            Semantic.pila.clear();
             semanticoTxtField.setText(Semantic.errores);
             if (errores.equals("")){
                 parsingTxtField.setText("Sin errores sintácticos.");
@@ -187,9 +190,6 @@ static public String errores = "";
             parsingTxtField.setText(errores);
             System.out.println(Semantic.errores);
             errores = "";
-            Semantic.errores = "";
-            Semantic.tabla.clear();
-            Semantic.pila.clear();
             //System.out.println(s.getS());
         }
         
