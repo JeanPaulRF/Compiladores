@@ -198,7 +198,8 @@ static public String errores = "";
         catch(Exception e){
             System.out.println(e.toString());
             Symbol sym = s.getS();
-            System.out.println(sym.value);
+            //System.out.println(sym.value);
+            //if (sym == null) return;
             if (sym.value == null){
                 parsingTxtField.setText("Sin errores sintácticos.");
                 parsingTxtField.setText(errores);

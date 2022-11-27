@@ -150,35 +150,39 @@ public abstract class Semantic {
     
     //if-else
     public static void startIf(){
-        RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
-        pila.push(rsIf);
+        System.out.println("startIf");
+        //RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
+        //pila.push(rsIf);
     }
     
     public static void testIf(){
-        RS_DO rsDo = (RS_DO) pila.pop();
+        System.out.println("testIf");
+        //RS_DO rsDo = (RS_DO) pila.pop();
         //Generar codigo
         //Generar jump
     }
     
     public static void startElse(){
+        System.out.println("startElse");
         //Generar jump
         //Generar else label
     }
     
     public static void endIf(){
+        System.out.println("endIf");
         //Generar exit label
-        pila.pop();
+       // pila.pop();
     }
     
     
     //while
     public static void startWhile(){
-        RS_WHILE rsWhile = new RS_WHILE("while", "While_Label", "Exit_Label");
-        pila.push(rsWhile);
+        //RS_WHILE rsWhile = new RS_WHILE("while", "While_Label", "Exit_Label");
+        //pila.push(rsWhile);
     }
     
     public static void testWhile(){
-        RS_DO rsDo = (RS_DO) pila.pop();
+        //RS_DO rsDo = (RS_DO) pila.pop();
         //Generar codigo
         //Generar jump
     }
@@ -186,8 +190,26 @@ public abstract class Semantic {
     public static void endWhile(){
         //Generar Jump
         //Generar label
-        pila.pop();
+        //pila.pop();
     }
+    
+    
+    
+    //funciones
+    public static void recuerdaTSFunc(String nombre){
+        RS_Tipo rsTipo = (RS_Tipo) pila.pop();
+        RS_Id rsId = (RS_Id) pila.pop();
+        if (!estaEnTS(rsId.nombre)){
+            System.out.println("En tabla");
+            tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo));
+        }
+        else{
+            errores += "SE REPITE LA FUNCION: " + rsId.nombre + " en la línea: \n\r";
+            System.out.println("SE REPITE LA FUNCION: " + rsId.nombre);
+        }
+        imprimirTS();
+    }
+    
     
     
     /*
