@@ -82,6 +82,7 @@ public abstract class Semantic {
         }
         else{
             celda.valor = rsDO.valor;
+            //Codigo para asignacion
         }
     }
     
