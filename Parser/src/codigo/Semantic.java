@@ -27,7 +27,6 @@ public abstract class Semantic {
     //DECLARACION
     public static void recuerdaTipo(String tipo){
         //System.out.println("a");
-        System.out.println(tipo + " zzzzzz");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
         //System.out.println("EL TIPO ES: " + token);
@@ -78,7 +77,7 @@ public abstract class Semantic {
         RS_DO rsDO = (RS_DO) pila.pop();
         CeldaTabla celda = buscarEnTS(nombre);
         if(celda == null){
-            errores += "LA VARIABLE: " + nombre + " no esta declarada\n";
+            errores += "Error semantico. La variable: " + nombre + " no esta declarada\n";
         }
         else{
             celda.valor = rsDO.valor;
@@ -102,14 +101,14 @@ public abstract class Semantic {
             celda.tagError = "Variable no declarada";
             tabla.add(celda);
             System.out.println("VARIABLE NO DECLARADA: " + nombre);
-            errores += "VARIABLE NO DECLARADA: " + nombre + " en la línea: \n\r ";
+            errores += "Error semantico. La variable: " + nombre + " no esta declarada\n";
         }
         pila.push(rsDo);
     }
     
     
     public static void recuerdaOperExp(String operador){
-        RS_Operador rsOp = new RS_Operador("expresion", operador);
+        RS_Operador rsOp = new RS_Operador("operador", operador);
         pila.push(rsOp);
     }
     
@@ -170,6 +169,52 @@ public abstract class Semantic {
             }
             pila.push(nuevo);
         } 
+    }
+    
+    
+    private static int calcularInt(String a, String operador, String b){
+        int num1 = Integer.parseInt(a);
+        int num2 = Integer.parseInt(b);
+        switch(operador){
+            case "+=":
+                return num1+num2;
+            case "-=":
+                return num1-num2;
+            case "*=": 
+                return num1*num2;
+            case "/=":
+                return num1/num2;
+            case "+":
+                return num1+num2;
+            case "-":
+                return num1-num2;
+            case "*":
+                return num1*num2;
+            case "/":
+                return num1/num2;
+            case "%":
+                return num1%num2;
+            default:
+                return 0;
+        }
+    }
+    
+    
+    private static boolean calcularBool(String a, String operador, String b){
+        int num1 = Integer.parseInt(a);
+        int num2 = Integer.parseInt(b);
+        switch(operador){
+            case "==":
+            case ">=":
+            case "<=":
+            case "!=":
+            case "||":
+            case "&&":
+            case ">":
+            case "<":
+            default:
+                return false;
+        }
     }
     
     
