@@ -159,7 +159,7 @@ public abstract class Semantic {
     public static void testIf(){
         //System.out.println("testIf");
         //RS_DO rsDo = (RS_DO) pila.pop();
-        //Generar codigo segun RS_DO
+        codigoASM+= "codigo de evaluacion del RS_DO\n";
         RS_IF rsIf = (RS_IF) pila.pop();
         //Generar jump
         codigoASM += "jump condicional " + rsIf.labelElse + "\n";
@@ -168,7 +168,7 @@ public abstract class Semantic {
     
     public static void startElse(){
         //System.out.println("startElse");
-        codigoElse = "jump Exit_Label\nElse_Label:\n";
+        codigoElse = "\tjump Exit_Label\nElse_Label:\n";
     }
     
     public static void endIf(){
@@ -182,19 +182,26 @@ public abstract class Semantic {
     
     //while
     public static void startWhile(){
-        //RS_WHILE rsWhile = new RS_WHILE("while", "While_Label", "Exit_Label");
-        //pila.push(rsWhile);
+        RS_WHILE rsWhile = new RS_WHILE("while", "While_Label", "Exit_Label");
+        codigoASM+= rsWhile.labelWhile + ":\n";
+        pila.push(rsWhile);
     }
     
     public static void testWhile(){
         //RS_DO rsDo = (RS_DO) pila.pop();
-        //Generar codigo
+        codigoASM+= "\tcodigo de evaluacion del RS_DO\n";
         //Generar jump
+        RS_WHILE rsWhile = (RS_WHILE) pila.pop();
+        codigoASM+= "\tjump condicional a " + rsWhile.labelExit + "\n";
+        pila.push(rsWhile);
     }
     
     public static void endWhile(){
+        RS_WHILE rsWhile = (RS_WHILE) pila.pop();
         //Generar Jump
-        //Generar label
+        codigoASM+= "\tjump " + rsWhile.labelWhile + "\n";
+        //Generar label exit
+        codigoASM+= rsWhile.labelExit + ":\n";
         //pila.pop();
     }
     
