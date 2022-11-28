@@ -46,7 +46,7 @@ public abstract class Semantic {
                 tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo, "variable global"));
             }
             else{
-                errores += "SE REPITE LA VARIABLE: " + rsId.nombre + " en la línea: \n\r";
+                errores += "SE REPITE LA VARIABLE: " + rsId.nombre + "\n";
                 System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);
             }
             
@@ -60,6 +60,29 @@ public abstract class Semantic {
             }
         }
         return false;
+    }
+    
+    
+    private static CeldaTabla buscarEnTS(String nombre){
+        for (int i = 0; i < tabla.size(); i++) {
+            CeldaTabla celda = tabla.get(i);
+            if(celda.nombre == nombre)
+                return celda;
+        }
+        return null;
+    }
+    
+    
+    //ASIGNACION
+    public static void asignarValor(String nombre){
+        RS_DO rsDO = (RS_DO) pila.pop();
+        CeldaTabla celda = buscarEnTS(nombre);
+        if(celda == null){
+            errores += "LA VARIABLE: " + nombre + " no esta declarada\n";
+        }
+        else{
+            celda.valor = rsDO.valor;
+        }
     }
     
     
@@ -223,6 +246,7 @@ public abstract class Semantic {
         imprimirTS();
     }
     
+   
     
     
     /*
