@@ -155,7 +155,7 @@ public abstract class Semantic {
         } 
     }
     
-    private static int calcularInt(String a, String operador, String b){
+    private static int calcular(String a, String operador, String b){
         int num1 = Integer.parseInt(a);
         int num2 = Integer.parseInt(b);
         switch(operador){
@@ -177,28 +177,34 @@ public abstract class Semantic {
                 return num1/num2;
             case "%":
                 return num1%num2;
+            case "==":
+                if(num1==num2) return 1;
+                else return 0;
+            case ">=":
+                if(num1>=num2) return 1;
+                else return 0;
+            case "<=":
+                if(num1<=num2) return 1;
+                else return 0;
+            case "!=":
+                if(num1!=num2) return 1;
+                else return 0;
+            case "||":
+                if(num1!=0 || num2!=0) return 1;
+                else return 0;
+            case "&&":
+                if(num1==num2 && num2!=0) return 1;
+                else return 0;
+            case ">":if(num1==num2) return 1;
+                else return 0;
+            case "<":
+                if(num1<num2) return 1;
+                else return 0;
             default:
                 return 0;
         }
     }
 
-
-    private static boolean calcularBool(String a, String operador, String b){
-        int num1 = Integer.parseInt(a);
-        int num2 = Integer.parseInt(b);
-        switch(operador){
-            case "==":
-            case ">=":
-            case "<=":
-            case "!=":
-            case "||":
-            case "&&":
-            case ">":
-            case "<":
-            default:
-                return false;
-        }
-    }
     
     public static void evalBinary(){
         RS_DO rs2 = (RS_DO) pila.pop();
@@ -213,7 +219,7 @@ public abstract class Semantic {
                 RS_DO nuevo = null;
                 if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
                     System.out.println(rs1.valor + operador.operador + rs2.valor);
-                    int valor = calcularInt(rs1.valor, operador.operador, rs2.valor);
+                    int valor = calcular(rs1.valor, operador.operador, rs2.valor);
                     nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");
                     System.out.println(valor);
                 }
