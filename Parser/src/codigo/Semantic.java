@@ -242,51 +242,40 @@ public abstract class Semantic {
             else{*/
                 RS_DO nuevo = null;
                 if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
-                    //System.out.println(rs1.valor + operador.operador + rs2.valor);
+                    System.out.println(rs1.valor + operador.operador + rs2.valor);
                     int valor = calcular(rs1.valor, operador.operador, rs2.valor);
                     nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");
                 }
                 else if (rs2.tipo == rs1.tipo && rs2.tipo == "direccion"){
                     if (!estaEnTS(rs1.valor) || !estaEnTS(rs2.valor )){
-                        //System.out.println("No existe variable");
+                        if (!estaEnTS(rs1.valor)){
+                            errores+= "Variable " + rs1.valor + " no declarada";
+                        }
+                        if (!estaEnTS(rs2.valor)){
+                            errores+= "Variable " + rs1.valor + " no declarada";
+                        }      
                     } 
                     else {
                         CeldaTabla c1 = buscarEnTS(rs1.valor);
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
-                        if(c1.valor == ""){
-                            errores+= "La variable " +c1.nombre+ " es null\n";
-                            c1.valor = "0";
-                        }
-                        if(c2.valor == ""){
-                            errores+= "La variable " +c2.nombre+ " es null\n";
-                            c2.valor = "0";
-                        }
                         int valor = calcular(c1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
                 }
                 else if (rs2.tipo == "direccion"){
                     if (!estaEnTS(rs2.valor)){
-                        //System.out.println("No existe variable");
+                        System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
-                        if(c2.valor == ""){
-                            errores+= "La variable " +c2.nombre+ " es null\n";
-                            c2.valor = "0";
-                        }
                         int valor = calcular(rs1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
                 }
                 else{
                     if (!estaEnTS(rs1.valor)){
-                        //System.out.println("No existe variable");
+                        System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs1.valor);  
-                        if(c2.valor == ""){
-                            errores+= "La variable " +c2.nombre+ " es null\n";
-                            c2.valor = "0";
-                        }
                         int valor = calcular(rs2.valor, operador.operador, c2.valor);
                         
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
