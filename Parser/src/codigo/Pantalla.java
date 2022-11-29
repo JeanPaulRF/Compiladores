@@ -179,7 +179,7 @@ static public String errores = "";
             br.close();
             String ST = stringBuilder.toString();
             s = new Sintax(new codigo.LexerCup((new StringReader(ST))));
-            s.debug_parse();
+            s.parse();
             setSimbolos(Semantic.tabla);
             escribirEnsamblador.escribirTraduccion(Semantic.codigoASM, fileName);
             Semantic.tabla.clear();

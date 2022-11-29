@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 import javax.script.ScriptEngine; 
 import javax.script.ScriptEngineManager; 
-import javax.script.ScriptException; 
+import javax.script.ScriptException;
+import javax.script.SimpleBindings;
 
 /**
  *
@@ -27,6 +28,7 @@ public abstract class Semantic {
     //DECLARACION
     public static void recuerdaTipo(String tipo){
         //System.out.println("a");
+        //System.out.println(tipo + " zzzzzz");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
         //System.out.println("EL TIPO ES: " + token);
@@ -52,6 +54,18 @@ public abstract class Semantic {
         }
     }
     
+    public static void recuerdaImplementacion(){
+        RS_Id rsID = (RS_Id) pila.pop();
+        RS_Tipo rsTipo = (RS_Tipo) pila.pop();
+        if (!estaEnTS(rsID.nombre)){
+                tabla.add(new CeldaTabla(rsID.nombre, rsTipo.tipo, "variable global"));
+            }
+            else{
+                errores += "SE REPITE LA VARIABLE: " + rsID.nombre + "\n";
+                System.out.println("SE REPITE LA VARIABLE: " + rsID.nombre);
+            }
+    }
+    
     private static boolean estaEnTS(String token){
         for (int i = 0; i < tabla.size(); i++){
             if((tabla.get(i).nombre.equals(token))) {
@@ -65,7 +79,7 @@ public abstract class Semantic {
     private static CeldaTabla buscarEnTS(String nombre){
         for (int i = 0; i < tabla.size(); i++) {
             CeldaTabla celda = tabla.get(i);
-            if(celda.nombre == nombre)
+            if(celda.nombre.equals(nombre))
                 return celda;
         }
         return null;
@@ -77,11 +91,11 @@ public abstract class Semantic {
         RS_DO rsDO = (RS_DO) pila.pop();
         CeldaTabla celda = buscarEnTS(nombre);
         if(celda == null){
-            errores += "Error semantico. La variable: " + nombre + " no esta declarada\n";
+            errores += "LA VARIABLE: " + nombre + " no esta declarada\n";
         }
         else{
             celda.valor = rsDO.valor;
-            //Codigo para asignacion
+            System.out.println(nombre+" "+celda.valor);
         }
     }
     
@@ -101,7 +115,7 @@ public abstract class Semantic {
             celda.tagError = "Variable no declarada";
             tabla.add(celda);
             System.out.println("VARIABLE NO DECLARADA: " + nombre);
-            errores += "Error semantico. La variable: " + nombre + " no esta declarada\n";
+            errores += "VARIABLE NO DECLARADA: " + nombre + " en la línea: \n\r ";
         }
         pila.push(rsDo);
     }
@@ -141,37 +155,6 @@ public abstract class Semantic {
         } 
     }
     
-    
-    public static void evalBinary(){
-        RS_DO rs2 = (RS_DO) pila.pop();
-        RS_Operador operador = (RS_Operador) pila.pop();
-        RS_DO rs1 = (RS_DO) pila.pop();
-        if(rs2.token != operador.token || operador.token != rs1.token){
-            System.out.println("VALORES Y OPERADOR DIFERENTES");
-            errores += "VALORES Y OPERADOR DIFERENTES: " + operador.token  + " en la línea: \n\r" ;
-        }
-        else{
-            RS_DO nuevo = null;
-            if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
-                ScriptEngineManager manager = new ScriptEngineManager(); 
-                ScriptEngine interprete = manager.getEngineByName("js"); 
-                try { 
-                    String valor = (String) interprete.eval(rs1.valor + operador.operador + rs2.valor); 
-                    nuevo = new RS_DO("expresion", valor, "constante");
-                } 
-                catch(ScriptException se) { 
-                    se.printStackTrace(); 
-                } 
-            }
-            else{
-                //codigo
-                nuevo = new RS_DO("expresion", "", "direccion");
-            }
-            pila.push(nuevo);
-        } 
-    }
-    
-    
     private static int calcularInt(String a, String operador, String b){
         int num1 = Integer.parseInt(a);
         int num2 = Integer.parseInt(b);
@@ -198,8 +181,8 @@ public abstract class Semantic {
                 return 0;
         }
     }
-    
-    
+
+
     private static boolean calcularBool(String a, String operador, String b){
         int num1 = Integer.parseInt(a);
         int num2 = Integer.parseInt(b);
@@ -214,6 +197,40 @@ public abstract class Semantic {
             case "<":
             default:
                 return false;
+        }
+    }
+    
+    public static void evalBinary(){
+        RS_DO rs2 = (RS_DO) pila.pop();
+        if (!pila.empty() && pila.peek().token=="operador"){
+            RS_Operador operador = (RS_Operador) pila.pop();
+            RS_DO rs1 = (RS_DO) pila.pop();        
+            /*if(rs2.token != operador.token || operador.token != rs1.token){
+                System.out.println("VALORES Y OPERADOR DIFERENTES");
+                errores += "VALORES Y OPERADOR DIFERENTES: " + operador.token  + " en la línea: \n\r" ;
+            }
+            else{*/
+                RS_DO nuevo = null;
+                if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
+                    System.out.println(rs1.valor + operador.operador + rs2.valor);
+                    int valor = calcularInt(rs1.valor, operador.operador, rs2.valor);
+                    nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");
+                    System.out.println(valor);
+                }
+                else if (rs2.tipo == rs1.tipo && rs2.tipo == "direccion"){
+                        if (!estaEnTS(rs1.valor) || !estaEnTS(rs2.valor )){
+                            System.out.println("No existe variable");
+                        } else {
+                            CeldaTabla c1 = buscarEnTS(rs1.valor);
+                            CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                            int valor = calcularInt(c1.valor, operador.operador, c2.valor);
+                            nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");       
+                        }                                     
+                }
+                pila.push(nuevo);
+            //}
+        }else{
+            pila.push(rs2);
         }
     }
     

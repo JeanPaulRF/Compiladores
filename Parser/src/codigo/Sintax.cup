@@ -73,8 +73,8 @@ LISTA_ID_P ::=
 
 
 DECLARACION_IMPLEMENTACION ::=
-    TDato:t Identificador:i Asignacion EXPRESION 
-                    {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); Semantic.recuerdaTSDecla(); Semantic.asignarValor((String) i); :}|
+    TDato:t Identificador:i Asignacion EXPRESION {:Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); Semantic.recuerdaImplementacion(); 
+    Semantic.evalBinary(); Semantic.asignarValor((String) i); :}|
     Const TDato:t Identificador:i Asignacion EXPRESION |
 
     error Identificador Asignacion EXPRESION |
@@ -171,7 +171,7 @@ RETURN ::=
 
 
 ASIGNACION ::=
-    Identificador:i Asignacion EXPRESION {: Semantic.asignarValor((String) i); :}|
+    Identificador Asignacion EXPRESION |
     error
 ;
 
@@ -304,9 +304,9 @@ LISTA_EXP_P ::=
 
 EXPRESION ::= 
     Parentesis_Izquierdo EXPRESION Parentesis_Derecho EXPRESION_P|
-    Identificador:i EXPRESION_P |
-    Caracter EXPRESION_P |
-    Entero:i EXPRESION_P |
+    Identificador:i EXPRESION_P {: Semantic.recuerdaVarExp((String) i); :}|
+    Caracter EXPRESION_P {: Semantic.recuerdaConstExp("1"); :}|
+    Entero:i EXPRESION_P {: Semantic.recuerdaConstExp((String) i); :}|
     LLAMADA_FUNCION EXPRESION_P |
     LLAMADA_FUNCION_P EXPRESION_P |
     LLAMADA_FUNCION Op_Una EXPRESION_P |
@@ -321,6 +321,7 @@ EXPRESION ::=
 ;
 
 EXPRESION_P ::= 
-    Op_Bin:o EXPRESION |
+    Op_Bin:o EXPRESION {: Semantic.recuerdaOperExp( (String) o); :}|
     Asignacion EXPRESION |
+    
 ;
