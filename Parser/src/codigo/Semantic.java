@@ -345,16 +345,15 @@ public static void testIf(){
         RS_WHILE rsWhile = (RS_WHILE) pila.pop();
         RS_DO rsDo = (RS_DO) pila.pop();
         
-        codigoASM+= "\tcodigo de evaluacion del RS_DO\n";
         //Generar jump
-        codigoASM+= "cmp    1," + rsDo.valor + "\njmp  "+ rsWhile.labelExit +"\n" ;
+        codigoASM+= "\tcmp    1," + rsDo.valor + "\n\tjl  "+ rsWhile.labelExit + "\n"  ;
         pila.push(rsWhile);
     }
     
     public static void endWhile(){
         RS_WHILE rsWhile = (RS_WHILE) pila.pop();
         //Generar Jump
-        codigoASM+= "\tjump " + rsWhile.labelWhile + "\n";
+        codigoASM+= "\tjump " + rsWhile.labelWhile + "\n\n";
         //Generar label exit
         codigoASM+= rsWhile.labelExit + ":\n";
         //pila.pop();
