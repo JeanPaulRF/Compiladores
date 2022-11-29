@@ -261,6 +261,14 @@ public abstract class Semantic {
                     else {
                         CeldaTabla c1 = buscarEnTS(rs1.valor);
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                        if(c1.valor == ""){
+                            errores+= "La variable " +c1.nombre+ " es null\n";
+                            c1.valor = "0";
+                        }
+                        if(c2.valor == ""){
+                            errores+= "La variable " +c2.nombre+ " es null\n";
+                            c2.valor = "0";
+                        }
                         int valor = calcular(c1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
@@ -270,6 +278,10 @@ public abstract class Semantic {
                         System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                        if(c2.valor == ""){
+                            errores+= "La variable " +c2.nombre+ " es null\n";
+                            c2.valor = "0";
+                        }
                         int valor = calcular(rs1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
@@ -279,6 +291,10 @@ public abstract class Semantic {
                         System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs1.valor);  
+                        if(c2.valor == ""){
+                            errores+= "La variable " +c2.nombre+ " es null\n";
+                            c2.valor = "0";
+                        }
                         int valor = calcular(rs2.valor, operador.operador, c2.valor);
                         
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
@@ -312,6 +328,7 @@ public static void testIf(){
     public static void testIfE(){
         //System.out.println("testIf");
         RS_IF rsIf = (RS_IF) pila.pop();
+        
         RS_DO rsDo = (RS_DO) pila.pop();
         //Generar jump
         codigoASM+= "cmp    1," + rsDo.valor + "\n" + "jl     "+ rsIf.labelElse +"\n" + "jmp  "+ rsIf.labelExit +"\n" ;
@@ -321,6 +338,7 @@ public static void testIf(){
     public static void startElse(){
         //System.out.println("startElse");
         RS_IF rsIf = (RS_IF) pila.pop();
+        
         codigoElse = rsIf.labelElse + ":\n\n";
         pila.push(rsIf);
     }
@@ -331,6 +349,7 @@ public static void testIf(){
         codigoASM+= codigoElse + "\n";
         codigoASM+= "Exit_Label:\n\n";
         pila.pop();
+
     }
     
     
