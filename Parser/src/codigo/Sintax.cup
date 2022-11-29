@@ -37,7 +37,7 @@ terminal Coma, Case, Break, Const, Continue, Default, Do, Else, For, If, Return,
     Parentesis_Izquierdo, Parentesis_Derecho, 
     Corchete_Izquierdo, Corchete_Derecho, Dos_Puntos, Read, Write, Identificador, Entero, Caracter;
 
-non terminal INICIO, DECLARACION, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, 
+non terminal INICIO, DECLARACION, DECLARACION2, LISTA_ID, LISTA_ID_P, DATO, DECLARACION_IMPLEMENTACION, DECLARACION_IMPLEMENTACION2,
     FUNCION, FUNCION_P, FUNCION_P2, DECLARACION_SIMPLE, LISTA_SIM, STMT, STMT_S, RETURN, ASIGNACION,
     EXPRESION, EXPRESION_P, EXPRESION_P2, READ, WRITE, LISTA_EXP, LISTA_EXP_P,
     IF, IF_ELSE, ELSE, FOR, FOR_P, WHILE, SWITCH, DO_WHILE, LLAMADA_FUNCION,LISTA_DATOS, LISTA_DATOS_P, LLAMADA_FUNCION_P;
@@ -59,6 +59,14 @@ DECLARACION ::=
     Const error LISTA_ID Puntoycoma
 ;
 
+DECLARACION2 ::= 
+    TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSDecla2(); :}|
+    Const TDato:t LISTA_ID Puntoycoma {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSDecla2(); :}|
+    error LISTA_ID Puntoycoma |
+    error TDato LISTA_ID Puntoycoma |
+    Const error LISTA_ID Puntoycoma
+;
+
 LISTA_ID ::= 
     Identificador:i LISTA_ID_P {: Semantic.recuerdaId((String) i); :} |
     error LISTA_ID_P
@@ -75,7 +83,18 @@ LISTA_ID_P ::=
 DECLARACION_IMPLEMENTACION ::=
     TDato:t Identificador:i Asignacion EXPRESION {:Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); Semantic.recuerdaImplementacion(); 
     Semantic.evalBinary(); Semantic.asignarValor((String) i); :}|
-    Const TDato:t Identificador:i Asignacion EXPRESION |
+    Const TDato:t Identificador:i Asignacion EXPRESION {:Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); Semantic.recuerdaImplementacion(); 
+    Semantic.evalBinary(); Semantic.asignarValor((String) i); :}|
+
+    error Identificador Asignacion EXPRESION |
+    TDato error Asignacion EXPRESION 
+;
+
+DECLARACION_IMPLEMENTACION2 ::=
+    TDato:t Identificador:i Asignacion EXPRESION {:Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); Semantic.recuerdaImplementacion2(); 
+    Semantic.evalBinary(); Semantic.asignarValor((String) i); :}|
+    Const TDato:t Identificador:i Asignacion EXPRESION {:Semantic.recuerdaTipo((String) t); Semantic.recuerdaId((String) i); Semantic.recuerdaImplementacion2(); 
+    Semantic.evalBinary(); Semantic.asignarValor((String) i); :}|
 
     error Identificador Asignacion EXPRESION |
     TDato error Asignacion EXPRESION 
@@ -99,7 +118,6 @@ LISTA_DATOS_P ::=
 FUNCION ::=
     _Void:t FUNCION_P {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSFunc(); :} |
     TDato:t FUNCION_P {: Semantic.recuerdaTipo((String) t); Semantic.recuerdaTSFunc(); :} |
-
     error FUNCION_P
 ;
 
@@ -145,8 +163,8 @@ LISTA_SIM ::=
 
 
 STMT ::= 
-    DECLARACION STMT | 
-    DECLARACION_IMPLEMENTACION STMT |
+    DECLARACION2 STMT | 
+    DECLARACION_IMPLEMENTACION2 Puntoycoma STMT |
     ASIGNACION Puntoycoma STMT |
     IF STMT |
     IF_ELSE STMT|
@@ -172,7 +190,7 @@ RETURN ::=
 
 
 ASIGNACION ::=
-    Identificador Asignacion EXPRESION |
+    Identificador:i Asignacion EXPRESION {: Semantic.evalBinary(); Semantic.asignarValor((String) i); :}|
     error
 ;
 
