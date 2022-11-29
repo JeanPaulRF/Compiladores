@@ -30,13 +30,13 @@ public abstract class Semantic {
         //System.out.println("a");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
-        //System.out.println("EL TIPO ES: " + token);
+        System.out.println("EL TIPO ES: " + tipo);
     }
     
     public static void recuerdaId(String nombre){
         RS_Id rsId = new RS_Id("identificador", nombre);
         pila.push(rsId);
-        System.out.println("IDENTIFICADOR : " + nombre);
+        //System.out.println("IDENTIFICADOR : " + nombre);
     }
     
     public static void recuerdaTSDecla(){
@@ -48,7 +48,22 @@ public abstract class Semantic {
             }
             else{
                 errores += "SE REPITE LA VARIABLE: " + rsId.nombre + "\n";
-                System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);
+                //System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);
+            }
+            
+        }
+    }
+    
+    public static void recuerdaTSDecla2(){
+        RS_Tipo rsTipo = (RS_Tipo) pila.pop();
+        while(!pila.isEmpty() && pila.peek().token == "identificador"){
+            RS_Id rsId = (RS_Id) pila.pop();
+            if (!estaEnTS(rsId.nombre)){
+                tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo, "variable local"));
+            }
+            else{
+                errores += "SE REPITE LA VARIABLE: " + rsId.nombre + "\n";
+                //System.out.println("SE REPITE LA VARIABLE: " + rsId.nombre);
             }
             
         }
@@ -62,7 +77,19 @@ public abstract class Semantic {
             }
             else{
                 errores += "SE REPITE LA VARIABLE: " + rsID.nombre + "\n";
-                System.out.println("SE REPITE LA VARIABLE: " + rsID.nombre);
+                //System.out.println("SE REPITE LA VARIABLE: " + rsID.nombre);
+            }
+    }
+    
+    public static void recuerdaImplementacion2(){
+        RS_Id rsID = (RS_Id) pila.pop();
+        RS_Tipo rsTipo = (RS_Tipo) pila.pop();
+        if (!estaEnTS(rsID.nombre)){
+                tabla.add(new CeldaTabla(rsID.nombre, rsTipo.tipo, "variable local"));
+            }
+            else{
+                errores += "SE REPITE LA VARIABLE: " + rsID.nombre + "\n";
+                //System.out.println("SE REPITE LA VARIABLE: " + rsID.nombre);
             }
     }
     
@@ -95,7 +122,7 @@ public abstract class Semantic {
         }
         else{
             celda.valor = rsDO.valor;
-            System.out.println(nombre+" "+celda.valor);
+            //System.out.println(nombre+" "+celda.valor);
         }
     }
     
@@ -112,10 +139,8 @@ public abstract class Semantic {
         RS_DO rsDo = new RS_DO("expresion", nombre, "direccion");
         if(!estaEnTS(nombre)){
             CeldaTabla celda = new CeldaTabla(rsDo.valor, rsDo.tipo, "variable local");
-            errores+= "Variable " + nombre + " no declarada";
             tabla.add(celda);
-            System.out.println("VARIABLE NO DECLARADA: " + nombre);
-            errores += "VARIABLE NO DECLARADA: " + nombre + " en la línea: \n\r ";
+            errores += "VARIABLE NO DECLARADA: " + nombre + "\n";
         }
         pila.push(rsDo);
     }
@@ -131,7 +156,6 @@ public abstract class Semantic {
         RS_Operador operador = (RS_Operador) pila.pop();
         RS_DO rs = (RS_DO) pila.pop();
         if(rs.token != operador.token){
-            System.out.println("VALORES Y OPERADOR DIFERENTES");
             errores += "VALORES Y OPERADOR DIFERENTES: " + operador.token  + " \n";
         }
         else{
@@ -218,38 +242,51 @@ public abstract class Semantic {
             else{*/
                 RS_DO nuevo = null;
                 if(rs2.tipo == rs1.tipo & rs2.tipo == "constante"){
-                    System.out.println(rs1.valor + operador.operador + rs2.valor);
+                    //System.out.println(rs1.valor + operador.operador + rs2.valor);
                     int valor = calcular(rs1.valor, operador.operador, rs2.valor);
                     nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");
                 }
                 else if (rs2.tipo == rs1.tipo && rs2.tipo == "direccion"){
                     if (!estaEnTS(rs1.valor) || !estaEnTS(rs2.valor )){
-                        System.out.println("No existe variable");
+                        //System.out.println("No existe variable");
                     } 
-                    else if (rs1.valor == ""){
-                        errores
-                    }
                     else {
                         CeldaTabla c1 = buscarEnTS(rs1.valor);
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                        if(c1.valor == ""){
+                            errores+= "La variable " +c1.nombre+ " es null\n";
+                            c1.valor = "0";
+                        }
+                        if(c2.valor == ""){
+                            errores+= "La variable " +c2.nombre+ " es null\n";
+                            c2.valor = "0";
+                        }
                         int valor = calcular(c1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
                 }
                 else if (rs2.tipo == "direccion"){
                     if (!estaEnTS(rs2.valor)){
-                        System.out.println("No existe variable");
+                        //System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                        if(c2.valor == ""){
+                            errores+= "La variable " +c2.nombre+ " es null\n";
+                            c2.valor = "0";
+                        }
                         int valor = calcular(rs1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
                 }
                 else{
                     if (!estaEnTS(rs1.valor)){
-                        System.out.println("No existe variable");
+                        //System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs1.valor);  
+                        if(c2.valor == ""){
+                            errores+= "La variable " +c2.nombre+ " es null\n";
+                            c2.valor = "0";
+                        }
                         int valor = calcular(rs2.valor, operador.operador, c2.valor);
                         
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
@@ -331,7 +368,7 @@ public abstract class Semantic {
             tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo, "funcion"));
         }
         else{
-            errores += "SE REPITE LA FUNCION: " + rsId.nombre + " en la línea: \n\r";
+            errores += "SE REPITE LA FUNCION: " + rsId.nombre + "\n";
             System.out.println("SE REPITE LA FUNCION: " + rsId.nombre);
         }
         imprimirTS();
