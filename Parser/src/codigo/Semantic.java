@@ -6,11 +6,11 @@ package codigo;
 
 import codigo.RS.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 import javax.script.ScriptEngine; 
 import javax.script.ScriptEngineManager; 
 import javax.script.ScriptException;
-import javax.script.SimpleBindings;
 
 /**
  *
@@ -35,6 +35,7 @@ public abstract class Semantic {
     }
     
     public static void recuerdaId(String nombre){
+        System.out.println(nombre);
         RS_Id rsId = new RS_Id("identificador", nombre);
         pila.push(rsId);
     }
@@ -59,6 +60,7 @@ public abstract class Semantic {
         RS_Tipo rsTipo = (RS_Tipo) pila.pop();
         if (!estaEnTS(rsID.nombre)){
                 tabla.add(new CeldaTabla(rsID.nombre, rsTipo.tipo, "variable global"));
+                
             }
             else{
                 errores += "SE REPITE LA VARIABLE: " + rsID.nombre + "\n";
@@ -95,6 +97,7 @@ public abstract class Semantic {
         }
         else{
             celda.valor = rsDO.valor;
+            codigoASM = celda.nombre + " db " + celda.valor + "\n" +codigoASM;
             System.out.println(nombre+" "+celda.valor);
         }
     }
@@ -115,7 +118,7 @@ public abstract class Semantic {
             celda.tagError = "Variable no declarada";
             tabla.add(celda);
             System.out.println("VARIABLE NO DECLARADA: " + nombre);
-            errores += "VARIABLE NO DECLARADA: " + nombre + " en la línea: \n\r ";
+            errores += "VARIABLE NO DECLARADA: " + nombre + "\n\r ";
         }
         pila.push(rsDo);
     }
@@ -262,30 +265,40 @@ public abstract class Semantic {
     //if-else
     public static void startIf(){
         //System.out.println("startIf");
+        Random rand = new Random();
         RS_IF rsIf = new RS_IF("if", "Else_Label", "Exit_Label");
         pila.push(rsIf);
     }
     
-    public static void testIf(){
+public static void testIf(){
         //System.out.println("testIf");
-        //RS_DO rsDo = (RS_DO) pila.pop();
-        codigoASM+= "codigo de evaluacion del RS_DO\n";
         RS_IF rsIf = (RS_IF) pila.pop();
+        RS_DO rsDo = (RS_DO) pila.pop();
         //Generar jump
-        codigoASM += "jump condicional " + rsIf.labelElse + "\n";
+        codigoASM+= "cmp    1," + rsDo.valor + "\n" ;
+        pila.push(rsIf);
+    }
+    
+    public static void testIfE(){
+        //System.out.println("testIf");
+        RS_IF rsIf = (RS_IF) pila.pop();
+        RS_DO rsDo = (RS_DO) pila.pop();
+        //Generar jump
+        codigoASM+= "cmp    1," + rsDo.valor + "\n" + "jl     "+ rsIf.labelElse +"\n" + "jmp  "+ rsIf.labelExit +"\n" ;
         pila.push(rsIf);
     }
     
     public static void startElse(){
         //System.out.println("startElse");
-        codigoElse = "\tjump Exit_Label\nElse_Label:\n";
+        RS_IF rsIf = (RS_IF) pila.pop();
+        codigoElse = rsIf.labelElse + ":\n\n";
     }
     
     public static void endIf(){
         //System.out.println("endIf");
         //Generar exit label
         codigoASM+= codigoElse + "\n";
-        codigoASM+= "Exit_Label:\n";
+        codigoASM+= "Exit_Label:\n\n";
         pila.pop();
     }
     
@@ -298,11 +311,12 @@ public abstract class Semantic {
     }
     
     public static void testWhile(){
-        //RS_DO rsDo = (RS_DO) pila.pop();
+        RS_WHILE rsWhile = (RS_WHILE) pila.pop();
+        RS_DO rsDo = (RS_DO) pila.pop();
+        
         codigoASM+= "\tcodigo de evaluacion del RS_DO\n";
         //Generar jump
-        RS_WHILE rsWhile = (RS_WHILE) pila.pop();
-        codigoASM+= "\tjump condicional a " + rsWhile.labelExit + "\n";
+        codigoASM+= "cmp    1," + rsDo.valor + "\njmp  "+ rsWhile.labelExit +"\n" ;
         pila.push(rsWhile);
     }
     
@@ -327,7 +341,7 @@ public abstract class Semantic {
             tabla.add(new CeldaTabla(rsId.nombre, rsTipo.tipo, "funcion"));
         }
         else{
-            errores += "SE REPITE LA FUNCION: " + rsId.nombre + " en la línea: \n\r";
+            errores += "SE REPITE LA FUNCION: " + rsId.nombre + "\n\r";
             System.out.println("SE REPITE LA FUNCION: " + rsId.nombre);
         }
         imprimirTS();

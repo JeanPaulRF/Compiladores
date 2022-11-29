@@ -149,6 +149,7 @@ STMT ::=
     DECLARACION_IMPLEMENTACION STMT |
     ASIGNACION Puntoycoma STMT |
     IF STMT |
+    IF_ELSE STMT|
     WHILE STMT |
     FOR STMT |
     DO_WHILE |
@@ -178,7 +179,21 @@ ASIGNACION ::=
 
 IF ::= 
     If Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE {: Semantic.startIf(); Semantic.testIf(); Semantic.endIf(); :} |
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.evalBinary(); Semantic.startIf(); Semantic.testIf(); Semantic.endIf(); :}| 
+
+    error Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    If error EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
+    If Parentesis_Izquierdo EXPRESION 
+    error Corchete_Izquierdo STMT Corchete_Derecho |
+    If Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho error STMT Corchete_Derecho     
+;
+
+IF_ELSE ::= 
+    If Parentesis_Izquierdo EXPRESION 
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
 
     error Parentesis_Izquierdo EXPRESION 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho ELSE |
@@ -190,16 +205,17 @@ IF ::=
     Parentesis_Derecho error STMT Corchete_Derecho ELSE     
 ;
 
-ELSE ::=
-    Else Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.startElse(); :}| 
 
-    Else error STMT Corchete_Derecho |
+ELSE ::=
+    Else Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.evalBinary(); Semantic.startIf(); Semantic.testIfE();  Semantic.startElse(); Semantic.endIf(); :}| 
+
+    Else error STMT Corchete_Derecho 
 ;
 
 
 WHILE ::= 
     While Parentesis_Izquierdo EXPRESION 
-    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.startWhile(); Semantic.testWhile(); Semantic.endWhile(); :}|
+    Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho {: Semantic.evalBinary(); Semantic.startWhile(); Semantic.testWhile(); Semantic.endWhile(); :}|
     While error EXPRESION 
     Parentesis_Derecho Corchete_Izquierdo STMT Corchete_Derecho |
     While Parentesis_Izquierdo EXPRESION 

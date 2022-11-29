@@ -1,11 +1,16 @@
-codigo de evaluacion del RS_DO
-jump condicional Else_Label
-	jump Exit_Label
+a db 2
+x db 1
+cmp    1,1
+jl     Else_Label
+jmp  Exit_Label
 Else_Label:
 
+
 Exit_Label:
+
 While_Label:
 	codigo de evaluacion del RS_DO
-	jump condicional a Exit_Label
+cmp    1,2
+jmp  Exit_Label
 	jump While_Label
 Exit_Label:
