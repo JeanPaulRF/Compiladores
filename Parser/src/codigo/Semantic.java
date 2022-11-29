@@ -322,6 +322,7 @@ public static void testIf(){
         //System.out.println("startElse");
         RS_IF rsIf = (RS_IF) pila.pop();
         codigoElse = rsIf.labelElse + ":\n\n";
+        pila.push(rsIf);
     }
     
     public static void endIf(){
