@@ -28,7 +28,6 @@ public abstract class Semantic {
     //DECLARACION
     public static void recuerdaTipo(String tipo){
         //System.out.println("a");
-        //System.out.println(tipo + " zzzzzz");
         RS_Tipo rsTipo = new RS_Tipo("TDato", tipo);
         pila.push(rsTipo);
         //System.out.println("EL TIPO ES: " + token);
@@ -37,6 +36,7 @@ public abstract class Semantic {
     public static void recuerdaId(String nombre){
         RS_Id rsId = new RS_Id("identificador", nombre);
         pila.push(rsId);
+        System.out.println("IDENTIFICADOR : " + nombre);
     }
     
     public static void recuerdaTSDecla(){
@@ -112,7 +112,7 @@ public abstract class Semantic {
         RS_DO rsDo = new RS_DO("expresion", nombre, "direccion");
         if(!estaEnTS(nombre)){
             CeldaTabla celda = new CeldaTabla(rsDo.valor, rsDo.tipo, "variable local");
-            celda.tagError = "Variable no declarada";
+            errores+= "Variable " + nombre + " no declarada";
             tabla.add(celda);
             System.out.println("VARIABLE NO DECLARADA: " + nombre);
             errores += "VARIABLE NO DECLARADA: " + nombre + " en la línea: \n\r ";
@@ -132,7 +132,7 @@ public abstract class Semantic {
         RS_DO rs = (RS_DO) pila.pop();
         if(rs.token != operador.token){
             System.out.println("VALORES Y OPERADOR DIFERENTES");
-            errores += "VALORES Y OPERADOR DIFERENTES: " + operador.token  + " en la línea: \n\r";
+            errores += "VALORES Y OPERADOR DIFERENTES: " + operador.token  + " \n";
         }
         else{
             RS_DO nuevo = null;
@@ -221,12 +221,15 @@ public abstract class Semantic {
                     System.out.println(rs1.valor + operador.operador + rs2.valor);
                     int valor = calcular(rs1.valor, operador.operador, rs2.valor);
                     nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");
-                    System.out.println(valor);
                 }
                 else if (rs2.tipo == rs1.tipo && rs2.tipo == "direccion"){
                     if (!estaEnTS(rs1.valor) || !estaEnTS(rs2.valor )){
                         System.out.println("No existe variable");
-                    } else {
+                    } 
+                    else if (rs1.valor == ""){
+                        errores
+                    }
+                    else {
                         CeldaTabla c1 = buscarEnTS(rs1.valor);
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
                         int valor = calcular(c1.valor, operador.operador, c2.valor);
@@ -248,6 +251,7 @@ public abstract class Semantic {
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs1.valor);  
                         int valor = calcular(rs2.valor, operador.operador, c2.valor);
+                        
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     } 
                 }
