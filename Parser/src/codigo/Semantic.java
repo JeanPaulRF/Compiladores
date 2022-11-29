@@ -229,7 +229,7 @@ public abstract class Semantic {
                     } else {
                         CeldaTabla c1 = buscarEnTS(rs1.valor);
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
-                        int valor = calcularInt(c1.valor, operador.operador, c2.valor);
+                        int valor = calcular(c1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
                 }
@@ -238,7 +238,7 @@ public abstract class Semantic {
                         System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs2.valor);  
-                        int valor = calcularInt(rs1.valor, operador.operador, c2.valor);
+                        int valor = calcular(rs1.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     }                                     
                 }
@@ -247,7 +247,7 @@ public abstract class Semantic {
                         System.out.println("No existe variable");
                     } else {
                         CeldaTabla c2 = buscarEnTS(rs1.valor);  
-                        int valor = calcularInt(rs2.valor, operador.operador, c2.valor);
+                        int valor = calcular(rs2.valor, operador.operador, c2.valor);
                         nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
                     } 
                 }
