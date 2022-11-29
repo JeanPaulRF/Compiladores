@@ -224,14 +224,32 @@ public abstract class Semantic {
                     System.out.println(valor);
                 }
                 else if (rs2.tipo == rs1.tipo && rs2.tipo == "direccion"){
-                        if (!estaEnTS(rs1.valor) || !estaEnTS(rs2.valor )){
-                            System.out.println("No existe variable");
-                        } else {
-                            CeldaTabla c1 = buscarEnTS(rs1.valor);
-                            CeldaTabla c2 = buscarEnTS(rs2.valor);  
-                            int valor = calcularInt(c1.valor, operador.operador, c2.valor);
-                            nuevo = new RS_DO("expresion", Integer.toString(valor), "constante");       
-                        }                                     
+                    if (!estaEnTS(rs1.valor) || !estaEnTS(rs2.valor )){
+                        System.out.println("No existe variable");
+                    } else {
+                        CeldaTabla c1 = buscarEnTS(rs1.valor);
+                        CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                        int valor = calcularInt(c1.valor, operador.operador, c2.valor);
+                        nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
+                    }                                     
+                }
+                else if (rs2.tipo == "direccion"){
+                    if (!estaEnTS(rs2.valor)){
+                        System.out.println("No existe variable");
+                    } else {
+                        CeldaTabla c2 = buscarEnTS(rs2.valor);  
+                        int valor = calcularInt(rs1.valor, operador.operador, c2.valor);
+                        nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
+                    }                                     
+                }
+                else{
+                    if (!estaEnTS(rs1.valor)){
+                        System.out.println("No existe variable");
+                    } else {
+                        CeldaTabla c2 = buscarEnTS(rs1.valor);  
+                        int valor = calcularInt(rs2.valor, operador.operador, c2.valor);
+                        nuevo = new RS_DO("expresion", Integer.toString(valor), "direccion");       
+                    } 
                 }
                 pila.push(nuevo);
             //}
