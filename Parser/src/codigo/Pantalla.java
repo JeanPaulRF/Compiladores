@@ -224,7 +224,7 @@ static public String errores = "";
         for (int i = 0; i < tabla.size(); i++) {   
             data[i][0] =  tabla.get(i).nombre;
             data[i][1] = tabla.get(i).tipo;
-            data[i][2] = tabla.get(i).valor;
+            data[i][2] = tabla.get(i).definicion;
             data[i][3] = tabla.get(i).valor;
             
         }
